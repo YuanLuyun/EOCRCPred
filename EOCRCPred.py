@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 from sksurv.ensemble import RandomSurvivalForest
 from sksurv.util import Surv
 from sksurv.metrics import concordance_index_censored, cumulative_dynamic_auc
-import matplotlib.pyplot as plt
 
 # 设置Streamlit页面布局
 st.title("生存分析模型 - 风险评分预测")
