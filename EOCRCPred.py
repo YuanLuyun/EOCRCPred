@@ -12,7 +12,7 @@ st.write("输入患者特征，预测对应的生存风险评分。")
 
 # 加载数据并去掉 'Patient ID' 列
 data = pd.read_csv('data_encoded8415.csv')
-data = data.drop(columns=['Patient ID'])
+data = data.drop(columns=['Patient_ID'])
 
 # 构建生存数据
 y = Surv.from_dataframe('Survival status', 'OS month', data)
