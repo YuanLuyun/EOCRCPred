@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sksurv.ensemble import RandomSurvivalForest
 from sksurv.util import Surv
 from sksurv.metrics import concordance_index_censored, cumulative_dynamic_auc
+import matplotlib.pyplot as plt
 
 # 设置Streamlit页面布局
 st.title("生存分析模型 - 风险评分预测")
@@ -15,8 +16,8 @@ data = pd.read_csv('data_encoded8415.csv')
 data = data.drop(columns=['Patient_ID'])
 
 # 构建生存数据
-y = Surv.from_dataframe('Survival status', 'OS month', data)
-X = data.drop(columns=['OS month', 'Survival status'])
+y = Surv.from_dataframe('Survival_status', 'OS_month', data)
+X = data.drop(columns=['OS_month', 'Survival_status'])
 
 # 按照 9:1 划分训练集与测试集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
