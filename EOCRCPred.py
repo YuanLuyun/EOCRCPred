@@ -28,20 +28,45 @@ rsf.fit(X_train, y_train)
 # Streamlit表单用于输入患者特征
 st.sidebar.header("输入患者特征")
 
-# 根据数据集中的特征创建输入项（示例：假设有三个特征 'Age'、'Tumor Size'、'Gender'）
-age = st.sidebar.number_input("Age", min_value=18, max_value=100, value=50)
-tumor_size = st.sidebar.slider("Tumor Size", min_value=0.1, max_value=10.0, value=5.0)
-gender = st.sidebar.selectbox("Gender", options=["Male", "Female"])
+# 输入项
+age = st.sidebar.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
+grade = st.sidebar.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
+tnm_stage = st.sidebar.selectbox("TNM Stage", options=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], index=0)
+t = st.sidebar.selectbox("T", options=[0.0, 1.0, 2.0, 3.0, 4.0], index=0)
+n = st.sidebar.selectbox("N", options=[0.0, 1.0, 2.0], index=0)
+cea = st.sidebar.selectbox("CEA", options=[0.0, 1.0, 2.0], index=0)
+resected_lns = st.sidebar.selectbox("No. of Resected LNs", options=[0.0, 1.0, 2.0], index=0)
+tumor_deposits = st.sidebar.selectbox("Tumor Deposits", options=[0.0, 1.0, 2.0], index=0)
+tumor_size = st.sidebar.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
+income = st.sidebar.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
 
-# 将输入数据转换为模型可用的格式
+# 独热编码变量
+sex_female = st.sidebar.selectbox("Sex (Female)", options=[0, 1], index=0)
+race_black = st.sidebar.selectbox("Race (Black)", options=[0, 1], index=0)
+race_other = st.sidebar.selectbox("Race (Other)", options=[0, 1], index=0)
+primary_site_sigmoid_colon = st.sidebar.selectbox("Primary Site (Sigmoid colon)", options=[0, 1], index=0)
+
+# 构建输入数据
 input_data = pd.DataFrame({
     "Age": [age],
-    "Tumor Size": [tumor_size],
-    "Gender": [1 if gender == "Male" else 0]  # 假设 'Gender' 是 1 表示 Male，0 表示 Female
+    "Grade": [grade],
+    "TNM_Stage": [tnm_stage],
+    "T": [t],
+    "N": [n],
+    "CEA": [cea],
+    "No.of_resected_LNs": [resected_lns],
+    "Tumor_Deposits": [tumor_deposits],
+    "Tumor_size": [tumor_size],
+    "Median_household_income": [income],
+    "Sex_Female": [sex_female],
+    "Race_Black": [race_black],
+    "Race_Other": [race_other],
+    "Primary_site_Sigmoid_colon": [primary_site_sigmoid_colon]
 })
 
 # 预测风险评分
 if st.sidebar.button("生成风险评分"):
+    input_data = input_data.reindex(columns=X_train.columns, fill_value=0)  # 对齐特征
     predicted_risk = rsf.predict(input_data)
     st.write(f"预测的风险评分: {predicted_risk[0]:.4f}")
 
