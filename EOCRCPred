@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -5,6 +6,10 @@ from sksurv.ensemble import RandomSurvivalForest
 from sksurv.util import Surv
 from sksurv.metrics import concordance_index_censored, cumulative_dynamic_auc
 import matplotlib.pyplot as plt
+
+# 设置Streamlit页面布局
+st.title("生存分析模型 - 风险评分预测")
+st.write("输入患者特征，预测对应的生存风险评分。")
 
 # 加载数据并去掉 'Patient ID' 列
 data = pd.read_csv('data_encoded8415.csv')
@@ -14,37 +19,32 @@ data = data.drop(columns=['Patient ID'])
 y = Surv.from_dataframe('Survival status', 'OS month', data)
 X = data.drop(columns=['OS month', 'Survival status'])
 
-# 按照 7:3 划分训练集与测试集
+# 按照 9:1 划分训练集与测试集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
 
 # 初始化随机生存森林模型
-rsf = RandomSurvivalForest(n_estimators=1625, max_depth=6, min_samples_split=2, min_samples_leaf=4, n_jobs=-1,
-                           random_state=42)
+rsf = RandomSurvivalForest(n_estimators=1625, max_depth=6, min_samples_split=2, min_samples_leaf=4, n_jobs=-1, random_state=42)
 rsf.fit(X_train, y_train)
 
-# 在训练集上计算 C-index
-c_index_train = concordance_index_censored(y_train["Survival status"], y_train["OS month"], rsf.predict(X_train))[0]
-# 在测试集上计算 C-index
-c_index_test = concordance_index_censored(y_test["Survival status"], y_test["OS month"], rsf.predict(X_test))[0]
+# Streamlit表单用于输入患者特征
+st.sidebar.header("输入患者特征")
 
-print(f"Train C-index: {c_index_train:.4f}")
-print(f"Test C-index: {c_index_test:.4f}")
+# 根据数据集中的特征创建输入项（示例：假设有三个特征 'Age'、'Tumor Size'、'Gender'）
+age = st.sidebar.number_input("Age", min_value=18, max_value=100, value=50)
+tumor_size = st.sidebar.slider("Tumor Size", min_value=0.1, max_value=10.0, value=5.0)
+gender = st.sidebar.selectbox("Gender", options=["Male", "Female"])
 
-# 定义感兴趣的时间点（每12个月一个时间点）
-time_points = np.arange(1, 96, 3)
+# 将输入数据转换为模型可用的格式
+input_data = pd.DataFrame({
+    "Age": [age],
+    "Tumor Size": [tumor_size],
+    "Gender": [1 if gender == "Male" else 0]  # 假设 'Gender' 是 1 表示 Male，0 表示 Female
+})
 
-# 计算测试集上的时间依赖性 AUC
-predicted_risk_test = rsf.predict(X_test)
-cumulative_auc, mean_auc = cumulative_dynamic_auc(y_train, y_test, predicted_risk_test, time_points)
+# 预测风险评分
+if st.sidebar.button("生成风险评分"):
+    predicted_risk = rsf.predict(input_data)
+    st.write(f"预测的风险评分: {predicted_risk[0]:.4f}")
 
-# 打印每个时间点的 AUC 值
-for i, t in enumerate(time_points):
-    print(f"AUC at {t} months: {cumulative_auc[i]:.4f}")
 
-# 绘制时间依赖性 AUC 曲线
-plt.plot(time_points, cumulative_auc, marker="o")
-plt.xlabel("Time (months)")
-plt.ylabel("Time-dependent AUC")
-plt.title("Time-dependent AUC over time")
-plt.grid(True)
-plt.show()
+
