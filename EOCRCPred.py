@@ -112,4 +112,3 @@ input_data = pd.DataFrame({
     "Marital_status_Widowed": [marital_status_widowed]
 })
 
- &#8203;:contentReference[oaicite:0]{index=0}&#8203;
