@@ -179,12 +179,12 @@ with center:
         "Marital_status_Divorced": [marital_status_divorced],
         "Marital_status_Widowed": [marital_status_widowed]
     })
-st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
+
     # 预测风险评分
     if st.button("Submit"):
         # 确保输入数据的特征列与训练数据对齐
         input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
-
+    st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
         # 进行风险评分预测
         predicted_risk = rsf.predict(input_data)
 
