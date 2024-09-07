@@ -45,16 +45,19 @@ rsf = train_model()
 col1, col2, col3 = st.columns(3)
 with col1:
     age = st.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
+    sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
+    race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
+    grade = st.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
     t = st.selectbox("T", options=[0.0, 1.0, 2.0, 3.0, 4.0], index=0)
     resected_lns = st.selectbox("No. of Resected LNs", options=[0.0, 1.0, 2.0], index=0)
     income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
-    sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
+    
 
 with col2:
-    grade = st.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
+    
     n = st.selectbox("N", options=[0.0, 1.0, 2.0], index=0)
     tumor_deposits = st.selectbox("Tumor Deposits", options=[0.0, 1.0, 2.0], index=0)
-    race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
+    
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
 
 with col3:
