@@ -48,10 +48,8 @@ with col1:
     sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
     race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     grade = st.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
-    
     resected_lns = st.selectbox("No. of Resected LNs", options=[0.0, 1.0, 2.0], index=0)
-    income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
-    
+    income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0) 
     primary_site = st.selectbox("Primary Site", options=[
         "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
     ], index=0)
@@ -60,22 +58,19 @@ with col2:
     tnm_stage = st.selectbox("TNM Stage", options=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], index=0)
     t = st.selectbox("T", options=[0.0, 1.0, 2.0, 3.0, 4.0], index=0)
     n = st.selectbox("N", options=[0.0, 1.0, 2.0], index=0)
-    tumor_deposits = st.selectbox("Tumor Deposits", options=[0.0, 1.0, 2.0], index=0)
-    
+    tumor_deposits = st.selectbox("Tumor Deposits", options=[0.0, 1.0, 2.0], index=0) 
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
 
 with col3:
     cea = st.selectbox("CEA", options=[0.0, 1.0, 2.0], index=0)
     tumor_size = st.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
-    histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
-    
+    histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)   
     resection_type = st.selectbox("Resection type", options=[
         "Partial/subtotal colectomy", 
         "Hemicolectomy or greater", 
         "Total colectomy", 
         "Colectomy plus removal of other organs"
     ], index=0)
-    
     surg_rad_seq = st.selectbox("Surg.Rad.Seq", options=[
         "Untreated", 
         "Postoperative", 
@@ -83,7 +78,6 @@ with col3:
         "Preoperative+Postoperative", 
         "Sequence unknown"
     ], index=0)
-    
     systemic_sur_seq = st.selectbox("Systemic.Sur.Seq", options=[
         "Untreated", 
         "Postoperative", 
@@ -91,7 +85,6 @@ with col3:
         "Preoperative+Postoperative", 
         "Sequence unknown"
     ], index=0)
-    
     chemotherapy = st.selectbox("Chemotherapy", options=["No", "Yes"], index=0)
     perineural_invasion = st.selectbox("Perineural Invasion", options=["No", "Yes"], index=0)
 
