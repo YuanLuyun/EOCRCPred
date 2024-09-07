@@ -61,8 +61,6 @@ with col3:
     tnm_stage = st.selectbox("TNM Stage", options=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], index=0)
     cea = st.selectbox("CEA", options=[0.0, 1.0, 2.0], index=0)
     tumor_size = st.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
-
-    # 将其余特征继续包含在三列布局中
     histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
     resection_type = st.selectbox("Resection type", options=[
         "Partial/subtotal colectomy", 
