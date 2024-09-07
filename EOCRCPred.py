@@ -28,8 +28,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 包裹所有输入框的区域，确保输入框在div中
-st.markdown('<div class="input-container">', unsafe_allow_html=True)
+# 使用Streamlit的容器
+with st.container():
+    st.markdown('<div class="input-container">', unsafe_allow_html=True)
 
 # 加载数据并去掉 'Patient ID' 列
 @st.cache_data
