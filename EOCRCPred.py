@@ -28,9 +28,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 使用Streamlit的容器
-with st.container():
-    st.markdown('<div class="input-container">', unsafe_allow_html=True)
+
 
 # 加载数据并去掉 'Patient ID' 列
 @st.cache_data
@@ -63,7 +61,9 @@ def train_model():
     return rsf
 
 rsf = train_model()
-
+# 使用Streamlit的容器
+with st.container():
+    st.markdown('<div class="input-container">', unsafe_allow_html=True)
 # 直接在div中放置输入框，而不是使用columns布局
 # 基本特征输入项
 age = st.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
