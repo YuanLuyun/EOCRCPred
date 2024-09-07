@@ -139,8 +139,60 @@ input_data = pd.DataFrame({
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
+# # 预测风险评分
+# if st.button("Submit"):
+#     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
+#     predicted_risk = rsf.predict(input_data)
+#     st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+
+import matplotlib.pyplot as plt
+import numpy as np
+
 # 预测风险评分
 if st.button("Submit"):
     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
     predicted_risk = rsf.predict(input_data)
-    st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+    # st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+    
+    # 计算累积风险函数
+    cumulative_hazard = rsf.predict_cumulative_hazard_function(input_data, return_array=True)
+    
+    # 输出累积风险曲线
+    fig, ax = plt.subplots()
+    time_points = np.linspace(0, cumulative_hazard[0][-1], num=100)  # 选择100个时间点
+    ax.plot(time_points, cumulative_hazard[0][:100], label='Cumulative Hazard')
+    ax.set_xlabel("Time (Months)")
+    ax.set_ylabel("Cumulative Hazard")
+    ax.set_title("Cumulative Hazard Curve")
+    ax.legend()
+    st.pyplot(fig)
+
+    # 计算三分位数风险分层
+    all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
+    q1, q2 = np.percentile(all_risks, [33.33, 66.67])
+    
+    if predicted_risk < q1:
+        risk_group = "Low Risk"
+    elif predicted_risk < q2:
+        risk_group = "Medium Risk"
+    else:
+        risk_group = "High Risk"
+    
+    st.write(f"该患者属于: {risk_group}")
+    
+    # 预测在12, 36, 60个月的风险矩阵
+    time_points = [12, 36, 60]  # 选择的时间点
+    risks_at_time_points = []
+    
+    for time in time_points:
+        risk_at_time = rsf.predict_cumulative_hazard_function(input_data, times=[time], return_array=True)
+        risks_at_time_points.append(risk_at_time[0][0])  # 取出对应时间点的风险值
+    
+    risk_matrix = pd.DataFrame({
+        "Time (Months)": time_points,
+        "Predicted Risk": risks_at_time_points
+    })
+    
+    st.write("不同时间点的预测风险矩阵:")
+    st.dataframe(risk_matrix)
+
