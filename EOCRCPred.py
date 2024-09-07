@@ -16,7 +16,7 @@ st.markdown(
     '     padding: 20px;'
     '     border-radius: 10px;'
     '     margin-bottom: 20px;'
-    '     width: 80%;'
+    '     width: auto;'
     '     margin: auto;'
     ' }'
     '</style>',
