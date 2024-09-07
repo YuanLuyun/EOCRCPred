@@ -7,8 +7,8 @@ from sksurv.util import Surv
 from sksurv.metrics import concordance_index_censored
 
 # 设置Streamlit页面布局
-st.title("Prediction model for post operative EOCRC (EOCRCpred model)")
-st.write("Enter the following items to display the predicted EOCRC risk")
+st.title("Prediction model for postoperative EOCRC (EOCRCpred model)")
+st.write("Enter the following items to display the predicted  postoperative survival risk")
 
 # 加载数据并去掉 'Patient ID' 列
 data = pd.read_csv('data_encoded8415.csv')
@@ -26,7 +26,7 @@ rsf = RandomSurvivalForest(n_estimators=1625, max_depth=6, min_samples_split=2, 
 rsf.fit(X_train, y_train)
 
 # Streamlit表单用于输入患者特征
-st.sidebar.header("输入患者特征")
+st.sidebar.header("")
 
 # 基本特征输入项
 age = st.sidebar.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
@@ -117,7 +117,7 @@ input_data = pd.DataFrame({
     "Marital_status_Widowed": [marital_status_widowed]})
 
 # 预测风险评分
-if st.sidebar.button("生成风险评分"):
+if st.sidebar.button("Submit"):
     # 确保输入数据的特征列与训练数据对齐
     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
     
