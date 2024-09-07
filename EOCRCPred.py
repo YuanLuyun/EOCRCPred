@@ -46,7 +46,7 @@ rsf = train_model()
 left, center, right = st.columns([1, 2, 1])
 
 with center:
-    st.header("输入患者特征")
+    # st.header("输入患者特征")
 
     # 基本特征输入项
     age = st.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
