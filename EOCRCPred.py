@@ -66,23 +66,21 @@ with col1:
     primary_site = st.selectbox("Primary Site", options=[
         "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
     ], index=0)
-
-with col2:
     tumor_size = st.selectbox("Tumor Size", options=ordered_var_categories['Tumor size'], index=0)
+with col2:
     grade = st.selectbox("Grade", options=ordered_var_categories['Grade'], index=0)
     histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
     cea = st.selectbox("CEA", options=ordered_var_categories['CEA'], index=0)
     tnm_stage = st.selectbox("TNM Stage", options=ordered_var_categories['TNM Stage'], index=0)
     t = st.selectbox("T", options=ordered_var_categories['T'], index=0)
     n = st.selectbox("N", options=ordered_var_categories['N'], index=0)
-
-with col3:
     resection_type = st.selectbox("Resection type", options=[
         "Partial/subtotal colectomy", 
         "Hemicolectomy or greater", 
         "Total colectomy", 
         "Colectomy plus removal of other organs"
     ], index=0)
+with col3:
     tumor_deposits = st.selectbox("Tumor Deposits", options=ordered_var_categories['Tumor Deposits'], index=0)
     resected_lns = st.selectbox("No. of Resected LNs", options=ordered_var_categories['No.of resected LNs'], index=0)
     surg_rad_seq = st.selectbox("Surg.Rad.Seq", options=[
