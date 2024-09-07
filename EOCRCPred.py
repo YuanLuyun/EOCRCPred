@@ -41,7 +41,7 @@ def train_model():
 
 rsf = train_model()
 
-# 使用 Streamlit 的布局工具
+# 使用Streamlit的列布局工具
 with st.form("input_form"):
     st.write("Basic Information")
     
@@ -61,17 +61,43 @@ with st.form("input_form"):
         cea = st.selectbox("CEA", options=[0.0, 1.0, 2.0], index=0)
         tumor_size = st.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
 
-    income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
+    # 将Median Household Income放在列布局中，确保宽度一致
+    col4, col5, col6 = st.columns(3)
+    with col4:
+        income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
 
     st.write("Demographic Information")
     
-    col4, col5, col6 = st.columns(3)
     with col4:
         sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
     with col5:
         race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     with col6:
         marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
+
+    # 其余的特征
+    histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
+    resection_type = st.selectbox("Resection type", options=[
+        "Partial/subtotal colectomy", 
+        "Hemicolectomy or greater", 
+        "Total colectomy", 
+        "Colectomy plus removal of other organs"
+    ], index=0)
+    surg_rad_seq = st.selectbox("Surg.Rad.Seq", options=[
+        "Untreated", 
+        "Postoperative", 
+        "Preoperative", 
+        "Preoperative+Postoperative", 
+        "Sequence unknown"
+    ], index=0)
+    systemic_sur_seq = st.selectbox("Systemic.Sur.Seq", options=[
+        "Untreated", 
+        "Postoperative", 
+        "Preoperative", 
+        "Preoperative+Postoperative", 
+        "Sequence unknown"
+    ], index=0)
+    perineural_invasion = st.selectbox("Perineural Invasion", options=["No", "Yes"], index=0)
 
     # 构建输入数据
     input_data = pd.DataFrame({
@@ -90,7 +116,12 @@ with st.form("input_form"):
         "Race_Other": [1 if race == "Other" else 0],
         "Marital_status_Married": [1 if marital_status == "Married" else 0],
         "Marital_status_Divorced": [1 if marital_status == "Divorced" else 0],
-        "Marital_status_Widowed": [1 if marital_status == "Widowed" else 0]
+        "Marital_status_Widowed": [1 if marital_status == "Widowed" else 0],
+        "Histology_Specific_adenocarcinoma": [1 if histology == "Specific adenocarcinoma" else 0],
+        "Resection_type_Hemicolectomy_or_greater": [1 if resection_type == "Hemicolectomy or greater" else 0],
+        "Surg.Rad.Seq_Postoperative": [1 if surg_rad_seq == "Postoperative" else 0],
+        "Systemic.Sur.Seq_Postoperative": [1 if systemic_sur_seq == "Postoperative" else 0],
+        "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
     })
 
     submit = st.form_submit_button("Submit")
