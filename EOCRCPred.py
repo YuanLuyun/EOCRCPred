@@ -110,3 +110,20 @@ input_data = pd.DataFrame({
     "Systemic.Sur.Seq_Postoperative": [systemic_sur_seq_postoperative],
     "Systemic.Sur.Seq_Preoperative": [systemic_sur_seq_preoperative],
     "Systemic.Sur.Seq_Preoperative+Postoperative": [systemic_sur_seq_preop_postop],
+    "Systemic.Sur.Seq_Sequence_unknown": [systemic_sur_seq_unknown],
+    "Perineural_Invasion_Yes": [perineural_invasion],
+    "Marital_status_Married": [marital_status_married],
+       "Marital_status_Divorced": [marital_status_divorced],
+    "Marital_status_Widowed": [marital_status_widowed]})
+
+# 预测风险评分
+if st.sidebar.button("生成风险评分"):
+    # 确保输入数据的特征列与训练数据对齐
+    input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
+    
+    # 进行风险评分预测
+    predicted_risk = rsf.predict(input_data)
+    
+    # 显示预测结果
+    st.write(f"预测的风险评分: {predicted_risk[0]:.4f}")
+
