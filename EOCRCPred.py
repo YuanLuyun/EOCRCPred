@@ -53,19 +53,17 @@ st.markdown(
         padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
-        width: 80%;
-        margin: auto;
-        background-color: #f9f9f9; /* 可选：添加背景颜色以增强可见性 */
+        background-color: #f9f9f9;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# 使用Streamlit的容器
+# 使用Streamlit的容器来包含输入框
 with st.container():
+    # 包裹输入框的 div
     st.markdown('<div class="input-container">', unsafe_allow_html=True)
-# 直接在div中放置输入框，而不是使用columns布局
 # 基本特征输入项
 age = st.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
 grade = st.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
