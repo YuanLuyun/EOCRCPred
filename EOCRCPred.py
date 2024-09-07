@@ -41,26 +41,40 @@ def train_model():
 
 rsf = train_model()
 
+# 定义有序变量的类别
+ordered_var_categories = {
+    'Age': ['less than 35', '35-44', '45-49'],
+    'Grade': ['Well differentiated', 'Moderately differentiated', 'Poorly differentiated', 'Undifferentiated'],
+    'TNM Stage': ['0', 'I', 'IIA', 'IIB', 'IIC', 'IIIA', 'IIIB', 'IIIC'],
+    'T': ['Tis', 'T1', 'T2', 'T3', 'T4'],
+    'N': ['N0', 'N1', 'N2'],
+    'CEA': ['negative', 'Borderline', 'positive'],
+    'No.of resected LNs': ['Zero', '1 to 3', '4+'],
+    'Tumor Deposits': ['Zero', '1 to 2', '3+'],
+    'Tumor size': ['less than 5', '5+'],
+    'Median household income': ['less than $35,000', '$35,000-$54,999', '$55,000-$74,999', '$75,000+']
+}
+
 # 三列布局
 col1, col2, col3 = st.columns(3)
 with col1:
-    age = st.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
+    age = st.selectbox("Age", options=ordered_var_categories['Age'], index=0)
     sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
     race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
-    income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
+    income = st.selectbox("Median Household Income", options=ordered_var_categories['Median household income'], index=0)
     primary_site = st.selectbox("Primary Site", options=[
         "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
     ], index=0)
 
 with col2:
-    tumor_size = st.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
-    grade = st.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
+    tumor_size = st.selectbox("Tumor Size", options=ordered_var_categories['Tumor size'], index=0)
+    grade = st.selectbox("Grade", options=ordered_var_categories['Grade'], index=0)
     histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
-    tnm_stage = st.selectbox("TNM Stage", options=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], index=0)
-    cea = st.selectbox("CEA", options=[0.0, 1.0, 2.0], index=0)
-    t = st.selectbox("T", options=[0.0, 1.0, 2.0, 3.0, 4.0], index=0)
-    n = st.selectbox("N", options=[0.0, 1.0, 2.0], index=0)
+    tnm_stage = st.selectbox("TNM Stage", options=ordered_var_categories['TNM Stage'], index=0)
+    cea = st.selectbox("CEA", options=ordered_var_categories['CEA'], index=0)
+    t = st.selectbox("T", options=ordered_var_categories['T'], index=0)
+    n = st.selectbox("N", options=ordered_var_categories['N'], index=0)
 
 with col3:
     resection_type = st.selectbox("Resection type", options=[
@@ -69,8 +83,8 @@ with col3:
         "Total colectomy", 
         "Colectomy plus removal of other organs"
     ], index=0)
-    tumor_deposits = st.selectbox("Tumor Deposits", options=[0.0, 1.0, 2.0], index=0)
-    resected_lns = st.selectbox("No. of Resected LNs", options=[0.0, 1.0, 2.0], index=0)
+    tumor_deposits = st.selectbox("Tumor Deposits", options=ordered_var_categories['Tumor Deposits'], index=0)
+    resected_lns = st.selectbox("No. of Resected LNs", options=ordered_var_categories['No.of resected LNs'], index=0)
     surg_rad_seq = st.selectbox("Surg.Rad.Seq", options=[
         "Untreated", 
         "Postoperative", 
