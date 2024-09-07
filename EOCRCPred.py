@@ -9,20 +9,17 @@ from sksurv.metrics import concordance_index_censored
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
 
-# 插入CSS来为整体输入框区域添加边框
 st.markdown(
-    """
-    <style>
-    .input-container {
-        border: 2px solid #4CAF50;  /* 绿色边框 */
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        width: 80%;
-        margin: auto;
-    }
-    </style>
-    """,
+    '<style>'
+    ' .input-container {'
+    '     border: 2px solid #4CAF50;'
+    '     padding: 20px;'
+    '     border-radius: 10px;'
+    '     margin-bottom: 20px;'
+    '     width: 80%;'
+    '     margin: auto;'
+    ' }'
+    '</style>',
     unsafe_allow_html=True
 )
 
