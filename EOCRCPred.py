@@ -156,17 +156,17 @@ if st.button("Submit"):
     # 确保输入数据与训练时的数据格式一致
 
 
-# 打印 input_data 的信息以调试
-st.write("Input Data for Prediction:")
-st.write(input_data.head())  # 查看数据前几行
-st.write(f"Data shape: {input_data.shape}")
+    # 打印 input_data 的信息以调试
+    st.write("Input Data for Prediction:")
+    st.write(input_data.head())  # 查看数据前几行
+    st.write(f"Data shape: {input_data.shape}")
 
-# 确保数据类型一致
-st.write(f"Data types:\n{input_data.dtypes}")
+    # 确保数据类型一致
+    st.write(f"Data types:\n{input_data.dtypes}")
 
-# 预测风险评分
-predicted_risk = rsf.predict(input_data)
-st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+    # 预测风险评分
+    predicted_risk = rsf.predict(input_data)
+    st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
 
     # 计算累积风险函数
     cumulative_hazard = rsf.predict_cumulative_hazard_function(input_data, return_array=True)
