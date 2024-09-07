@@ -9,10 +9,21 @@ from sksurv.metrics import concordance_index_censored
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
 st.markdown(
-    '<style>div[data-testid="stNumberInput"] > div, div[data-testid="stSelectbox"] > div {border: 2px solid #4CAF50; padding: 5px; border-radius: 5px;}</style>',
+    """
+    <style>
+    .input-container {
+        border: 2px solid #4CAF50;  /* 绿色边框 */
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    </style>
+    """,
     unsafe_allow_html=True
 )
 
+# 包裹所有输入框的区域
+st.markdown('<div class="input-container">', unsafe_allow_html=True)
 
 st.write("Enter the following items to display the predicted postoperative survival risk")
 
