@@ -52,6 +52,9 @@ with col1:
     resected_lns = st.selectbox("No. of Resected LNs", options=[0.0, 1.0, 2.0], index=0)
     income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
     
+    primary_site = st.selectbox("Primary Site", options=[
+        "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
+    ], index=0)
 
 with col2:
     tnm_stage = st.selectbox("TNM Stage", options=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], index=0)
@@ -62,16 +65,17 @@ with col2:
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
 
 with col3:
-    
     cea = st.selectbox("CEA", options=[0.0, 1.0, 2.0], index=0)
     tumor_size = st.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
     histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
+    
     resection_type = st.selectbox("Resection type", options=[
         "Partial/subtotal colectomy", 
         "Hemicolectomy or greater", 
         "Total colectomy", 
         "Colectomy plus removal of other organs"
     ], index=0)
+    
     surg_rad_seq = st.selectbox("Surg.Rad.Seq", options=[
         "Untreated", 
         "Postoperative", 
@@ -79,6 +83,7 @@ with col3:
         "Preoperative+Postoperative", 
         "Sequence unknown"
     ], index=0)
+    
     systemic_sur_seq = st.selectbox("Systemic.Sur.Seq", options=[
         "Untreated", 
         "Postoperative", 
@@ -86,6 +91,8 @@ with col3:
         "Preoperative+Postoperative", 
         "Sequence unknown"
     ], index=0)
+    
+    chemotherapy = st.selectbox("Chemotherapy", options=["No", "Yes"], index=0)
     perineural_invasion = st.selectbox("Perineural Invasion", options=["No", "Yes"], index=0)
 
 # 构建输入数据
@@ -103,13 +110,25 @@ input_data = pd.DataFrame({
     "Sex_Female": [1 if sex == "Female" else 0],
     "Race_Black": [1 if race == "Black" else 0],
     "Race_Other": [1 if race == "Other" else 0],
+    "Primary_site_Rectum": [1 if primary_site == "Rectum" else 0],
+    "Primary_site_Descending_colon": [1 if primary_site == "Descending colon" else 0],
+    "Primary_site_Transverse_colon": [1 if primary_site == "Transverse colon" else 0],
     "Marital_status_Married": [1 if marital_status == "Married" else 0],
     "Marital_status_Divorced": [1 if marital_status == "Divorced" else 0],
     "Marital_status_Widowed": [1 if marital_status == "Widowed" else 0],
     "Histology_Specific_adenocarcinoma": [1 if histology == "Specific adenocarcinoma" else 0],
     "Resection_type_Hemicolectomy_or_greater": [1 if resection_type == "Hemicolectomy or greater" else 0],
+    "Resection_type_Total_colectomy": [1 if resection_type == "Total colectomy" else 0],
+    "Resection_type_Colectomy_plus_removal_of_other_organs": [1 if resection_type == "Colectomy plus removal of other organs" else 0],
     "Surg.Rad.Seq_Postoperative": [1 if surg_rad_seq == "Postoperative" else 0],
+    "Surg.Rad.Seq_Preoperative": [1 if surg_rad_seq == "Preoperative" else 0],
+    "Surg.Rad.Seq_Preoperative+Postoperative": [1 if surg_rad_seq == "Preoperative+Postoperative" else 0],
+    "Surg.Rad.Seq_Sequence_unknown": [1 if surg_rad_seq == "Sequence unknown" else 0],
+    "Chemotherapy_Yes": [1 if chemotherapy == "Yes" else 0],
     "Systemic.Sur.Seq_Postoperative": [1 if systemic_sur_seq == "Postoperative" else 0],
+    "Systemic.Sur.Seq_Preoperative": [1 if systemic_sur_seq == "Preoperative" else 0],
+    "Systemic.Sur.Seq_Preoperative+Postoperative": [1 if systemic_sur_seq == "Preoperative+Postoperative" else 0],
+    "Systemic.Sur.Seq_Sequence_unknown": [1 if systemic_sur_seq == "Sequence unknown" else 0],
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
