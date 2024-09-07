@@ -119,4 +119,4 @@ input_data = pd.DataFrame({
 
 # 预测风险评分
 if st.sidebar.button("生成风险评分"):
-    input_data = input_data.reindex(columns=X_train.columns, fill_value)
+    input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
