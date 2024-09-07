@@ -148,8 +148,8 @@ if st.button("Submit"):
     # st.write(f"Data shape: {input_data.shape}")
     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
     
-    # # 预测风险评分
-    # predicted_risk = rsf.predict(input_data)
+    # 预测风险评分
+    predicted_risk = rsf.predict(input_data)
     # st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
 
     # 计算累积风险函数
