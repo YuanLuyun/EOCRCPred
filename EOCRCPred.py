@@ -8,7 +8,7 @@ from sksurv.metrics import concordance_index_censored
 
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
-
+st.write("Enter the following items to display the predicted postoperative survival risk")
 st.markdown(
     '<style>'
     ' .input-container {'
@@ -26,7 +26,7 @@ st.markdown(
 # 包裹所有输入框的区域，确保输入框在div中
 st.markdown('<div class="input-container">', unsafe_allow_html=True)
 
-st.write("Enter the following items to display the predicted postoperative survival risk")
+
 
 # 加载数据并去掉 'Patient ID' 列
 @st.cache_data
@@ -184,7 +184,7 @@ with center:
     if st.button("Submit"):
         # 确保输入数据的特征列与训练数据对齐
         input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
-    st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
+
         # 进行风险评分预测
         predicted_risk = rsf.predict(input_data)
 
@@ -192,4 +192,4 @@ with center:
         st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
 
 
-
+    st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
