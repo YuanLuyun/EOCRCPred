@@ -10,23 +10,6 @@ from sksurv.metrics import concordance_index_censored
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
 st.write("Enter the following items to display the predicted postoperative survival risk")
 
-# 添加自定义CSS样式
-st.markdown(
-    """
-    <style>
-    .input-container {
-        border: 2px solid #4CAF50;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        width: 80%;
-        margin: auto;
-        background-color: #f9f9f9; /* 可选：添加背景颜色以增强可见性 */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 
 
@@ -61,6 +44,24 @@ def train_model():
     return rsf
 
 rsf = train_model()
+# 添加自定义CSS样式
+st.markdown(
+    """
+    <style>
+    .input-container {
+        border: 2px solid #4CAF50;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        width: 80%;
+        margin: auto;
+        background-color: #f9f9f9; /* 可选：添加背景颜色以增强可见性 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # 使用Streamlit的容器
 with st.container():
     st.markdown('<div class="input-container">', unsafe_allow_html=True)
