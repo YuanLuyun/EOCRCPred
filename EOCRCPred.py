@@ -11,7 +11,7 @@ st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
 
 # 插入CSS来为整体输入框区域添加边框
 st.markdown(
-    """
+    '
     <style>
     .input-container {
         border: 2px solid #4CAF50;  /* 绿色边框 */
@@ -22,7 +22,7 @@ st.markdown(
         margin: auto;
     }
     </style>
-    """,
+    ',
     unsafe_allow_html=True
 )
 
