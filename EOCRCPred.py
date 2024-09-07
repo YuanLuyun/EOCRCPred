@@ -71,9 +71,14 @@ systemic_sur_seq_unknown = st.sidebar.selectbox("Systemic.Sur.Seq (Sequence unkn
 
 # 其他特征
 perineural_invasion = st.sidebar.selectbox("Perineural Invasion (Yes)", options=[0, 1], index=0)
-marital_status_married = st.sidebar.selectbox("Marital status (Married)", options=[0, 1], index=0)
-marital_status_divorced = st.sidebar.selectbox("Marital status (Divorced)", options=[0, 1], index=0)
-marital_status_widowed = st.sidebar.selectbox("Marital status (Widowed)", options=[0, 1], index=0)
+
+# 合并婚姻状态为一个选项
+marital_status = st.sidebar.selectbox("Marital status", options=["Married", "Divorced", "Widowed"], index=0)
+
+# 构建婚姻状态的独热编码
+marital_status_married = 1 if marital_status == "Married" else 0
+marital_status_divorced = 1 if marital_status == "Divorced" else 0
+marital_status_widowed = 1 if marital_status == "Widowed" else 0
 
 # 构建输入数据
 input_data = pd.DataFrame({
@@ -112,3 +117,6 @@ input_data = pd.DataFrame({
     "Marital_status_Widowed": [marital_status_widowed]
 })
 
+# 预测风险评分
+if st.sidebar.button("生成风险评分"):
+    input_data = input_data.reindex(columns=X_train.columns, fill_value
