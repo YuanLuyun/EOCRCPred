@@ -8,6 +8,31 @@ from sksurv.metrics import concordance_index_censored
 
 # 设置Streamlit页面布局
 st.title("Prediction model for postoperative EOCRC (EOCRCpred model)")
+# 设置Streamlit页面布局
+st.title("Prediction model for postoperative EOCRC (EOCRCpred model)")
+
+# 插入CSS来居中输入框
+st.markdown(
+    """
+    <style>
+    .sidebar .sidebar-content {
+        display: none;
+    }
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 0;
+    }
+    .stTextInput, .stSelectbox, .stNumberInput {
+        width: 100%;
+        max-width: 400px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 st.write("Enter the following items to display the predicted  postoperative survival risk")
 
 # 加载数据并去掉 'Patient ID' 列
