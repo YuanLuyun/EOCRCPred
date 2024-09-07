@@ -41,9 +41,6 @@ def train_model():
 
 rsf = train_model()
 
-# 使用Streamlit的列布局工具
-st.write("Basic Information")
-
 # 三列布局
 col1, col2, col3 = st.columns(3)
 with col1:
