@@ -8,18 +8,11 @@ from sksurv.metrics import concordance_index_censored
 
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
-# 在页面顶部插入CSS来调整输入框宽度
 st.markdown(
-    """
-    <style>
-    .css-1lcbmhc, .css-1n543e5, .css-1cpxqw2 {
-        width: 100% !important;
-        max-width: 600px;  /* 可以根据需要修改最大宽度 */
-    }
-    </style>
-    """,
+    '<style>div[data-testid="stNumberInput"] > div, div[data-testid="stSelectbox"] > div {border: 2px solid #4CAF50; padding: 5px; border-radius: 5px;}</style>',
     unsafe_allow_html=True
 )
+
 
 st.write("Enter the following items to display the predicted postoperative survival risk")
 
