@@ -179,7 +179,7 @@ with center:
         "Marital_status_Divorced": [marital_status_divorced],
         "Marital_status_Widowed": [marital_status_widowed]
     })
-
+st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
     # 预测风险评分
     if st.button("Submit"):
         # 确保输入数据的特征列与训练数据对齐
@@ -191,5 +191,5 @@ with center:
         # 显示预测结果
         st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
 
-st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
+
 
