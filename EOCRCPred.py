@@ -8,14 +8,18 @@ from sksurv.metrics import concordance_index_censored
 
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
+
+# 插入CSS来为整体输入框区域添加边框
 st.markdown(
     """
     <style>
     .input-container {
         border: 2px solid #4CAF50;  /* 绿色边框 */
-        padding: 15px;
+        padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
+        width: 80%;
+        margin: auto;
     }
     </style>
     """,
@@ -63,8 +67,6 @@ rsf = train_model()
 left, center, right = st.columns([1, 3, 1])
 
 with center:
-    # st.header("输入患者特征")
-
     # 基本特征输入项
     age = st.number_input("Age", min_value=1.0, max_value=3.0, step=1.0, value=1.0)
     grade = st.selectbox("Grade", options=[1.0, 2.0, 3.0, 4.0], index=0)
@@ -191,3 +193,6 @@ with center:
 
         # 显示预测结果
         st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+
+st.markdown('</div>', unsafe_allow_html=True)  # 结束包裹输入框的 div
+
