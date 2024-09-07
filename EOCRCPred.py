@@ -40,45 +40,56 @@ tumor_deposits = st.sidebar.selectbox("Tumor Deposits", options=[0.0, 1.0, 2.0],
 tumor_size = st.sidebar.number_input("Tumor Size", min_value=0.0, max_value=10.0, step=0.1, value=0.0)
 income = st.sidebar.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
 
-# 独热编码变量
-sex_female = st.sidebar.selectbox("Sex (Female)", options=[0, 1], index=0)
-race_black = st.sidebar.selectbox("Race (Black)", options=[0, 1], index=0)
-race_other = st.sidebar.selectbox("Race (Other)", options=[0, 1], index=0)
 
-# 添加更多的 Primary site 选项
-primary_site_rectum = st.sidebar.selectbox("Primary Site (Rectum)", options=[0, 1], index=0)
-primary_site_descending_colon = st.sidebar.selectbox("Primary Site (Descending colon)", options=[0, 1], index=0)
-primary_site_transverse_colon = st.sidebar.selectbox("Primary Site (Transverse colon)", options=[0, 1], index=0)
+# 合并 Sex 选项
+sex = st.sidebar.selectbox("Sex", options=["Male", "Female"], index=0)
+sex_female = 1 if sex == "Female" else 0  # Male 作为基准类别
 
-# 添加更多的 Histology 和 Resection type
-histology_specific = st.sidebar.selectbox("Histology (Specific adenocarcinoma)", options=[0, 1], index=0)
-histology_other = st.sidebar.selectbox("Histology (Other)", options=[0, 1], index=0)
-resection_type_hemicolectomy = st.sidebar.selectbox("Resection type (Hemicolectomy or greater)", options=[0, 1], index=0)
-resection_type_total_colectomy = st.sidebar.selectbox("Resection type (Total colectomy)", options=[0, 1], index=0)
-resection_type_other = st.sidebar.selectbox("Resection type (Colectomy plus removal of other organs)", options=[0, 1], index=0)
+# 合并 Race 选项
+race = st.sidebar.selectbox("Race", options=["White", "Black", "Other"], index=0)
+race_black = 1 if race == "Black" else 0
+race_other = 1 if race == "Other" else 0  # White 作为基准类别
 
-# 添加 Surg.Rad.Seq 和其他特征
-surg_rad_seq_postoperative = st.sidebar.selectbox("Surg.Rad.Seq (Postoperative)", options=[0, 1], index=0)
-surg_rad_seq_preoperative = st.sidebar.selectbox("Surg.Rad.Seq (Preoperative)", options=[0, 1], index=0)
-surg_rad_seq_preop_postop = st.sidebar.selectbox("Surg.Rad.Seq (Preoperative+Postoperative)", options=[0, 1], index=0)
-surg_rad_seq_unknown = st.sidebar.selectbox("Surg.Rad.Seq (Sequence unknown)", options=[0, 1], index=0)
+# 合并 Primary site 选项
+primary_site = st.sidebar.selectbox("Primary Site", options=["Ascending colon", "Rectum", "Descending colon", "Transverse colon"], index=0)
+primary_site_rectum = 1 if primary_site == "Rectum" else 0
+primary_site_descending_colon = 1 if primary_site == "Descending colon" else 0
+primary_site_transverse_colon = 1 if primary_site == "Transverse colon" else 0  # Ascending colon 作为基准类别
 
-# 添加 Systemic.Sur.Seq
-systemic_sur_seq_postoperative = st.sidebar.selectbox("Systemic.Sur.Seq (Postoperative)", options=[0, 1], index=0)
-systemic_sur_seq_preoperative = st.sidebar.selectbox("Systemic.Sur.Seq (Preoperative)", options=[0, 1], index=0)
-systemic_sur_seq_preop_postop = st.sidebar.selectbox("Systemic.Sur.Seq (Preoperative+Postoperative)", options=[0, 1], index=0)
-systemic_sur_seq_unknown = st.sidebar.selectbox("Systemic.Sur.Seq (Sequence unknown)", options=[0, 1], index=0)
+# 合并 Histology 选项
+histology = st.sidebar.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
+histology_specific = 1 if histology == "Specific adenocarcinoma" else 0
+histology_other = 1 if histology == "Other" else 0  # Non-specific adenocarcinoma 作为基准类别
 
-# 其他特征
-perineural_invasion = st.sidebar.selectbox("Perineural Invasion (Yes)", options=[0, 1], index=0)
+# 合并 Resection type 选项
+resection_type = st.sidebar.selectbox("Resection type", options=["Partial/subtotal colectomy", "Hemicolectomy or greater", "Total colectomy", "Colectomy plus removal of other organs"], index=0)
+resection_type_hemicolectomy = 1 if resection_type == "Hemicolectomy or greater" else 0
+resection_type_total_colectomy = 1 if resection_type == "Total colectomy" else 0
+resection_type_other = 1 if resection_type == "Colectomy plus removal of other organs" else 0  # Partial/subtotal colectomy 作为基准类别
 
-# 合并婚姻状态为一个选项，Single 为基准类别，不进行独热编码
+# 合并 Surg.Rad.Seq 选项
+surg_rad_seq = st.sidebar.selectbox("Surg.Rad.Seq", options=["Untreated", "Postoperative", "Preoperative", "Preoperative+Postoperative", "Sequence unknown"], index=0)
+surg_rad_seq_postoperative = 1 if surg_rad_seq == "Postoperative" else 0
+surg_rad_seq_preoperative = 1 if surg_rad_seq == "Preoperative" else 0
+surg_rad_seq_preop_postop = 1 if surg_rad_seq == "Preoperative+Postoperative" else 0
+surg_rad_seq_unknown = 1 if surg_rad_seq == "Sequence unknown" else 0  # Untreated 作为基准类别
+
+# 合并 Systemic.Sur.Seq 选项
+systemic_sur_seq = st.sidebar.selectbox("Systemic.Sur.Seq", options=["Untreated", "Postoperative", "Preoperative", "Preoperative+Postoperative", "Sequence unknown"], index=0)
+systemic_sur_seq_postoperative = 1 if systemic_sur_seq == "Postoperative" else 0
+systemic_sur_seq_preoperative = 1 if systemic_sur_seq == "Preoperative" else 0
+systemic_sur_seq_preop_postop = 1 if systemic_sur_seq == "Preoperative+Postoperative" else 0
+systemic_sur_seq_unknown = 1 if systemic_sur_seq == "Sequence unknown" else 0  # Untreated 作为基准类别
+
+# 合并 Perineural Invasion 选项
+perineural_invasion = st.sidebar.selectbox("Perineural Invasion", options=["No", "Yes"], index=0)
+perineural_invasion_yes = 1 if perineural_invasion == "Yes" else 0  # No 作为基准类别
+
+# 合并 Marital status 选项
 marital_status = st.sidebar.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
-
-# 如果不是Single则生成独热编码
 marital_status_married = 1 if marital_status == "Married" else 0
 marital_status_divorced = 1 if marital_status == "Divorced" else 0
-marital_status_widowed = 1 if marital_status == "Widowed" else 0
+marital_status_widowed = 1 if marital_status == "Widowed" else 0  # Single 作为基准类别
 
 # 构建输入数据
 input_data = pd.DataFrame({
@@ -102,7 +113,7 @@ input_data = pd.DataFrame({
     "Histology_Other": [histology_other],
     "Resection_type_Hemicolectomy_or_greater_": [resection_type_hemicolectomy],
     "Resection_type_Total_colectomy": [resection_type_total_colectomy],
-    "Resection_type_Colectomy_plus_removal_of_other_organs": [resection_type_other],
+        "Resection_type_Colectomy_plus_removal_of_other_organs": [resection_type_other],
     "Surg.Rad.Seq_Postoperative": [surg_rad_seq_postoperative],
     "Surg.Rad.Seq_Preoperative": [surg_rad_seq_preoperative],
     "Surg.Rad.Seq_Preoperative+Postoperative": [surg_rad_seq_preop_postop],
@@ -111,10 +122,11 @@ input_data = pd.DataFrame({
     "Systemic.Sur.Seq_Preoperative": [systemic_sur_seq_preoperative],
     "Systemic.Sur.Seq_Preoperative+Postoperative": [systemic_sur_seq_preop_postop],
     "Systemic.Sur.Seq_Sequence_unknown": [systemic_sur_seq_unknown],
-    "Perineural_Invasion_Yes": [perineural_invasion],
+    "Perineural_Invasion_Yes": [perineural_invasion_yes],
     "Marital_status_Married": [marital_status_married],
-       "Marital_status_Divorced": [marital_status_divorced],
-    "Marital_status_Widowed": [marital_status_widowed]})
+    "Marital_status_Divorced": [marital_status_divorced],
+    "Marital_status_Widowed": [marital_status_widowed]
+})
 
 # 预测风险评分
 if st.sidebar.button("Submit"):
@@ -126,4 +138,3 @@ if st.sidebar.button("Submit"):
     
     # 显示预测结果
     st.write(f"预测的风险评分: {predicted_risk[0]:.4f}")
-
