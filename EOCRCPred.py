@@ -49,7 +49,6 @@ with col1:
     race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
     income = st.selectbox("Median Household Income", options=[1.0, 2.0, 3.0, 4.0], index=0)
-    g
     primary_site = st.selectbox("Primary Site", options=[
         "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
     ], index=0)
