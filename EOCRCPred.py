@@ -56,7 +56,7 @@ def train_model():
 rsf = train_model()
 
 # 创建三列布局，左侧和右侧为空，中间为输入框
-left, center, right = st.columns([1, 2, 1])
+left, center, right = st.columns([1, 3, 1])
 
 with center:
     # st.header("输入患者特征")
