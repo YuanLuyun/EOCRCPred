@@ -100,19 +100,19 @@ with col3:
     chemotherapy = st.selectbox("Chemotherapy", options=["No", "Yes"], index=0)
     perineural_invasion = st.selectbox("Perineural Invasion", options=["No", "Yes"], index=0)
 
-# 构建输入数据
+# 手动编码每个分类特征
 input_data = pd.DataFrame({
-    "Age": [age],
-    "Grade": [grade],
-    "TNM_Stage": [tnm_stage],
-    "T": [t],
-    "N": [n],
-    "CEA": [cea],
-    "No.of_resected_LNs": [resected_lns],
-    "Tumor_Deposits": [tumor_deposits],
-    "Tumor_size": [tumor_size],
-    "Median_household_income": [income],
-    "Sex_Female": [1 if sex == "Female" else 0],
+    "Age": [ordered_var_categories['Age'].index(age)],  # 将选择的年龄范围转为数值
+    "Grade": [ordered_var_categories['Grade'].index(grade)],  # 将 Grade 转为数值
+    "TNM_Stage": [ordered_var_categories['TNM Stage'].index(tnm_stage)],  # TNM Stage 转为数值
+    "T": [ordered_var_categories['T'].index(t)],  # T 转为数值
+    "N": [ordered_var_categories['N'].index(n)],  # N 转为数值
+    "CEA": [ordered_var_categories['CEA'].index(cea)],  # CEA 转为数值
+    "No.of_resected_LNs": [ordered_var_categories['No.of resected LNs'].index(resected_lns)],  # LNs 数值化
+    "Tumor_Deposits": [ordered_var_categories['Tumor Deposits'].index(tumor_deposits)],  # Tumor Deposits 数值化
+    "Tumor_size": [ordered_var_categories['Tumor size'].index(tumor_size)],  # Tumor Size 数值化
+    "Median_household_income": [ordered_var_categories['Median household income'].index(income)],  # 收入数值化
+    "Sex_Female": [1 if sex == "Female" else 0],  # 性别编码
     "Race_Black": [1 if race == "Black" else 0],
     "Race_Other": [1 if race == "Other" else 0],
     "Primary_site_Rectum": [1 if primary_site == "Rectum" else 0],
