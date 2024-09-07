@@ -8,8 +8,6 @@ from sksurv.metrics import concordance_index_censored
 
 # 设置Streamlit页面布局
 st.title("Prediction model for postoperative EOCRC (EOCRCpred model)")
-# 设置Streamlit页面布局
-st.title("Prediction model for postoperative EOCRC (EOCRCpred model)")
 
 # 插入CSS来居中输入框
 st.markdown(
