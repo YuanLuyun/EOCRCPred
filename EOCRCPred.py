@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sksurv.ensemble import RandomSurvivalForest
 from sksurv.util import Surv
+import matplotlib.pyplot as plt
 
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
@@ -138,15 +139,6 @@ input_data = pd.DataFrame({
     "Systemic.Sur.Seq_Sequence_unknown": [1 if systemic_sur_seq == "Sequence unknown" else 0],
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
-
-# # 预测风险评分
-# if st.button("Submit"):
-#     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
-#     predicted_risk = rsf.predict(input_data)
-#     st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
-
-import matplotlib.pyplot as plt
-import numpy as np
 
 # 预测风险评分
 if st.button("Submit"):
