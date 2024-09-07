@@ -150,16 +150,16 @@ import numpy as np
 
 # 预测风险评分
 if st.button("Submit"):
+        # 打印 input_data 的信息以调试
+    st.write("Input Data for Prediction:")
+    st.write(input_data.head())  # 查看数据前几行
+    st.write(f"Data shape: {input_data.shape}")
     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
     predicted_risk = rsf.predict(input_data)
     # st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
     # 确保输入数据与训练时的数据格式一致
 
 
-    # 打印 input_data 的信息以调试
-    st.write("Input Data for Prediction:")
-    st.write(input_data.head())  # 查看数据前几行
-    st.write(f"Data shape: {input_data.shape}")
 
     # 确保数据类型一致
     st.write(f"Data types:\n{input_data.dtypes}")
