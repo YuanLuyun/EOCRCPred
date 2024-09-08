@@ -44,16 +44,16 @@ rsf = train_model()
 
 # 定义有序变量的类别
 ordered_var_categories = {
-    'Age': ['less than 35', '35-44', '45-49'],
+    'Age': ['＜35', '35-44', '45-49'],
     'Grade': ['Well differentiated', 'Moderately differentiated', 'Poorly differentiated', 'Undifferentiated'],
     'TNM Stage': ['0', 'I', 'IIA', 'IIB', 'IIC', 'IIIA', 'IIIB', 'IIIC'],
     'T': ['Tis', 'T1', 'T2', 'T3', 'T4'],
     'N': ['N0', 'N1', 'N2'],
     'CEA': ['negative', 'Borderline', 'positive'],
-    'No.of resected LNs': ['Zero', '1 to 3', '4+'],
-    'Tumor Deposits': ['Zero', '1 to 2', '3+'],
-    'Tumor size': ['less than 5', '5+'],
-    'Median household income': ['less than $35,000', '$35,000-$54,999', '$55,000-$74,999', '$75,000+']
+    'No.of resected LNs': ['0', '1-3', '≥4'],
+    'Tumor Deposits': ['0', '1-2', '3+'],
+    'Tumor size': ['＜5', '≥5'],
+    'Median household income': ['＜$35,000', '$35,000-$54,999', '$55,000-$74,999', '≥$75,000+']
 }
 
 # 三列布局
