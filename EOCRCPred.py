@@ -246,7 +246,8 @@ if st.button("Submit"):
     input_data_array = input_data.to_numpy()
     # st.write("Input Data as NumPy Array:")
     # st.write(input_data_array)
-
+    # 预测风险评分并赋值给 predicted_risk
+    predicted_risk = rsf.predict(input_data)
     # 预测累积风险函数
     cumulative_hazard_functions = rsf.predict_cumulative_hazard_function(input_data_array)
 
