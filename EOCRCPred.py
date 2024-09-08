@@ -140,7 +140,6 @@ input_data = pd.DataFrame({
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
-
 # 预测风险评分
 if st.button("Submit"):
     # 确保 input_data 的列顺序与训练时一致
@@ -163,19 +162,7 @@ if st.button("Submit"):
         risks = cumulative_hazard_func.y  # 累积风险值
         time_index = cumulative_hazard_func.x  # 对应的时间点
         risks_matrix.append(risks)
-
-    # 将累积风险矩阵转置，使时间点作为行索引，并加上表头
-    risk_matrix_df = pd.DataFrame(risks_matrix).T  # 转置矩阵
-    risk_matrix_df.index = time_index  # 将时间点设为行索引
-    risk_matrix_df.columns = ["Predicted Relative Risk Score"] * risk_matrix_df.shape[1]  # 将所有列名设置为“Risk Score”
-    risk_matrix_df.index.name = "Time Point (month)"  # 设置行索引的表头为“Time point (month)”
-
-    # 显示表格上方的标题
-    st.markdown("### Raw data")
-
-    # 显示风险矩阵，并使表格宽度较小
-    st.dataframe(risk_matrix_df, width=600)  # 将表格宽度设置为 600
-
+   
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
     q1, q2 = np.percentile(all_risks, [33.33, 66.67])
@@ -199,7 +186,8 @@ if st.button("Submit"):
         survival_rates[f"Survival rate at {time_point} months"] = survival_rate
 
     # 显示 1, 3, 5 年的生存率
-    st.write("1, 3, 5 年的生存率:")
+    st.markdown("### 1, 3, 5 年的生存率:")
+    # st.write("1, 3, 5 年的生存率:")
     for time_point, survival_rate in survival_rates.items():
         st.write(f"{time_point}: {survival_rate:.4f}")
 
@@ -212,4 +200,16 @@ if st.button("Submit"):
     ax.set_title("Cumulative Hazard Curve")
     ax.legend()
     st.pyplot(fig)
+     # 将累积风险矩阵转置，使时间点作为行索引，并加上表头
+    risk_matrix_df = pd.DataFrame(risks_matrix).T  # 转置矩阵
+    risk_matrix_df.index = time_index  # 将时间点设为行索引
+    risk_matrix_df.columns = ["Predicted Relative Risk Score"] * risk_matrix_df.shape[1]  # 将所有列名设置为“Risk Score”
+    risk_matrix_df.index.name = "Time Point (month)"  # 设置行索引的表头为“Time point (month)”
+
+    # 显示表格上方的标题
+    st.markdown("### Raw data")
+
+    # 显示风险矩阵，并使表格宽度较小
+    st.dataframe(risk_matrix_df, width=600)  # 将表格宽度设置为 600
+
 
