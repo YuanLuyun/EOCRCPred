@@ -164,18 +164,53 @@ if st.button("Submit"):
         risks_matrix.append(risks)
    
     st.markdown("### CRisk Stratification")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # 显示分层标题
+    st.markdown("### CRisk Stratification")
+
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
-    q1, q2 = np.percentile(all_risks, [33.33, 66.67])
+    q1, q2 = np.percentile(all_risks, [33.33, 66.67])  # 33.33% 和 66.67% 作为分位数
 
+    # 绘制风险分布的条形图
+    fig, ax = plt.subplots()
+    ax.hist(all_risks, bins=30, color='lightgray', edgecolor='black')  # 绘制风险值的直方图
+    ax.axvline(x=q1, color='green', linestyle='--', label=f'Low Risk Threshold: {q1:.4f}')
+    ax.axvline(x=q2, color='orange', linestyle='--', label=f'Medium Risk Threshold: {q2:.4f}')
+    ax.axvline(x=predicted_risk[0], color='red', linestyle='-', label=f'Patient Risk: {predicted_risk[0]:.4f}')
+    ax.legend()
+    ax.set_title("Risk Distribution and Patient's Position")
+    ax.set_xlabel("Risk Score")
+    ax.set_ylabel("Frequency")
+    st.pyplot(fig)  # 显示图表
+
+    # 显示风险分层的详细信息
+    st.write(f"Low Risk: below {q1:.4f} (green line)")
+    st.write(f"Medium Risk: between {q1:.4f} and {q2:.4f} (orange line)")
+    st.write(f"High Risk: above {q2:.4f} (red line)")
+
+    # 显示患者的风险分层并使用颜色
     if predicted_risk[0] < q1:
-        risk_group = "Low Risk"
+        st.markdown(f"<span style='color: green;'>该患者属于: Low Risk</span>", unsafe_allow_html=True)
     elif predicted_risk[0] < q2:
-        risk_group = "Medium Risk"
+        st.markdown(f"<span style='color: orange;'>该患者属于: Medium Risk</span>", unsafe_allow_html=True)
     else:
-        risk_group = "High Risk"
+        st.markdown(f"<span style='color: red;'>该患者属于: High Risk</span>", unsafe_allow_html=True)
 
-    st.write(f"该患者属于: {risk_group}")
+    # # 计算三分位数风险分层
+    # all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
+    # q1, q2 = np.percentile(all_risks, [33.33, 66.67])
+
+    # if predicted_risk[0] < q1:
+    #     risk_group = "Low Risk"
+    # elif predicted_risk[0] < q2:
+    #     risk_group = "Medium Risk"
+    # else:
+    #     risk_group = "High Risk"
+
+    # st.write(f"该患者属于: {risk_group}")
 
     # 计算 1、3、5 年的生存率
     time_points = [12, 36, 60]  # 12个月(1年), 36个月(3年), 60个月(5年)
