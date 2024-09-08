@@ -193,6 +193,7 @@ if st.button("Submit"):
         st.write(f"{time_point}: {survival_rate:.4f}")
 
     # 输出累积风险曲线
+    st.markdown("### Cumulative Hazard Curve")
     fig, ax = plt.subplots()
     ax.plot(time_index, risks_matrix[0], label='Cumulative Hazard')
     ax.set_xlabel("Time (Months)")
