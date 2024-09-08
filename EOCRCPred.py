@@ -239,14 +239,8 @@ if st.button("Submit"):
     # 确保 input_data 的列顺序与训练时一致
     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
 
-    # 打印输入数据
-    st.write("Input Data for Prediction:")
-    st.write(input_data)
-
     # 打印 NumPy 数组形式的输入数据
     input_data_array = input_data.to_numpy()
-    st.write("Input Data as NumPy Array:")
-    st.write(input_data_array)
 
     # 预测风险评分并赋值给 predicted_risk
     predicted_risk = rsf.predict(input_data)
@@ -265,12 +259,19 @@ if st.button("Submit"):
 
     # 将结果转换为 DataFrame
     risk_matrix_df = pd.DataFrame(risks_matrix, columns=[f"Time {t}" for t in time_index])
+    # 计算三分位数风险分层
+    all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
+    q1, q2 = np.percentile(all_risks, [33.33, 66.67])
 
-    # 显示风险矩阵
-    st.write("风险矩阵:")
-    st.dataframe(risk_matrix_df)
+    if predicted_risk[0] < q1:
+        risk_group = "Low Risk"
+    elif predicted_risk[0] < q2:
+        risk_group = "Medium Risk"
+    else:
+        risk_group = "High Risk"
 
-    # 计算 1、3、5 年的生存率
+    st.write(f"该患者属于: {risk_group}")
+        # 计算 1、3、5 年的生存率
     time_points = [12, 36, 60]  # 12个月(1年), 36个月(3年), 60个月(5年)
     survival_rates = {}
 
@@ -284,18 +285,7 @@ if st.button("Submit"):
     for time_point, survival_rate in survival_rates.items():
         st.write(f"{time_point}: {survival_rate:.4f}")
 
-    # 计算三分位数风险分层
-    all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
-    q1, q2 = np.percentile(all_risks, [33.33, 66.67])
 
-    if predicted_risk[0] < q1:
-        risk_group = "Low Risk"
-    elif predicted_risk[0] < q2:
-        risk_group = "Medium Risk"
-    else:
-        risk_group = "High Risk"
-
-    st.write(f"该患者属于: {risk_group}")
 
     # 输出累积风险曲线
     fig, ax = plt.subplots()
@@ -306,4 +296,6 @@ if st.button("Submit"):
     ax.legend()
     st.pyplot(fig)
 
-
+        # 显示风险矩阵
+    st.write("风险矩阵:")
+    st.dataframe(risk_matrix_df)
