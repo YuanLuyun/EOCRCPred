@@ -205,6 +205,8 @@ if st.button("Submit"):
 
     # 检查数据的形状
     st.write(f"Data Shape: {input_data.shape}")
+    # 打印输入数据的类型
+    st.write(f"Data type of input_data: {type(input_data)}")
 
     # # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
     # input_data_array = input_data.to_numpy()
