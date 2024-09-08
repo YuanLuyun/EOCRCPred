@@ -163,8 +163,11 @@ if st.button("Submit"):
         time_index = cumulative_hazard_func.x  # 对应的时间点
         risks_matrix.append(risks)
 
-    # 将结果转换为 DataFrame
-    risk_matrix_df = pd.DataFrame(risks_matrix, columns=[f"Time {t}" for t in time_index])
+    # # 将结果转换为 DataFrame
+    # risk_matrix_df = pd.DataFrame(risks_matrix, columns=[f"Time {t}" for t in time_index])
+    # 将结果转换为 DataFrame，并将列名设置为 "1, 2, 3, ..."
+    risk_matrix_df = pd.DataFrame(risks_matrix, columns=[str(i+1) for i in range(len(time_index))])
+
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
     q1, q2 = np.percentile(all_risks, [33.33, 66.67])
