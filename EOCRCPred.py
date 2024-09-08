@@ -162,29 +162,13 @@ if st.button("Submit"):
         risks = cumulative_hazard_func.y  # 累积风险值
         time_index = cumulative_hazard_func.x  # 对应的时间点
         risks_matrix.append(risks)
-   
-    st.markdown("### CRisk Stratification")
-    import matplotlib.pyplot as plt
-    import numpy as np
 
     # 显示分层标题
-    st.markdown("### CRisk Stratification")
+    st.markdown("### Risk Stratification")
 
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
     q1, q2 = np.percentile(all_risks, [33.33, 66.67])  # 33.33% 和 66.67% 作为分位数
-
-    # 绘制风险分布的条形图
-    fig, ax = plt.subplots()
-    ax.hist(all_risks, bins=30, color='lightgray', edgecolor='black')  # 绘制风险值的直方图
-    ax.axvline(x=q1, color='green', linestyle='--', label=f'Low Risk Threshold: {q1:.4f}')
-    ax.axvline(x=q2, color='orange', linestyle='--', label=f'Medium Risk Threshold: {q2:.4f}')
-    ax.axvline(x=predicted_risk[0], color='red', linestyle='-', label=f'Patient Risk: {predicted_risk[0]:.4f}')
-    ax.legend()
-    ax.set_title("Risk Distribution and Patient's Position")
-    ax.set_xlabel("Risk Score")
-    ax.set_ylabel("Frequency")
-    st.pyplot(fig)  # 显示图表
 
     # 显示风险分层的详细信息
     st.write(f"Low Risk: below {q1:.4f} (green line)")
@@ -193,11 +177,11 @@ if st.button("Submit"):
 
     # 显示患者的风险分层并使用颜色
     if predicted_risk[0] < q1:
-        st.markdown(f"<span style='color: green;'>该患者属于: Low Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: green;'>Current patient risk stratification: Low Risk</span>", unsafe_allow_html=True)
     elif predicted_risk[0] < q2:
-        st.markdown(f"<span style='color: orange;'>该患者属于: Medium Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: orange;'>Current patient risk stratification: Medium Risk</span>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<span style='color: red;'>该患者属于: High Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: red;'>Current patient risk stratification: High Risk</span>", unsafe_allow_html=True)
 
     # # 计算三分位数风险分层
     # all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
