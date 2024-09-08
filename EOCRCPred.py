@@ -140,88 +140,121 @@ input_data = pd.DataFrame({
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
-# 预测风险评分
-if st.button("Submit"):
-        # 打印 input_data 的信息以调试
-    # st.write("Input Data for Prediction:")
-    # st.write(input_data.head())  # 查看数据前几行
-    # st.write(f"Data shape: {input_data.shape}")
-    input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
+# # 预测风险评分
+# if st.button("Submit"):
+#         # 打印 input_data 的信息以调试
+#     # st.write("Input Data for Prediction:")
+#     # st.write(input_data.head())  # 查看数据前几行
+#     # st.write(f"Data shape: {input_data.shape}")
+#     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
     
+#     # 预测风险评分
+#     predicted_risk = rsf.predict(input_data)
+#     # st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+
+#     # 计算累积风险函数
+#     cumulative_hazard = rsf.predict_cumulative_hazard_function(input_data, return_array=True)
+    
+#     # 输出累积风险曲线
+#     fig, ax = plt.subplots()
+#     time_points = np.linspace(0, cumulative_hazard[0][-1], num=100)  # 选择100个时间点
+#     ax.plot(time_points, cumulative_hazard[0][:100], label='Cumulative Hazard')
+#     ax.set_xlabel("Time (Months)")
+#     ax.set_ylabel("Cumulative Hazard")
+#     ax.set_title("Cumulative Hazard Curve")
+#     ax.legend()
+#     st.pyplot(fig)
+
+#     # 计算三分位数风险分层
+#     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
+#     q1, q2 = np.percentile(all_risks, [33.33, 66.67])
+    
+#     if predicted_risk < q1:
+#         risk_group = "Low Risk"
+#     elif predicted_risk < q2:
+#         risk_group = "Medium Risk"
+#     else:
+#         risk_group = "High Risk"
+    
+#     st.write(f"该患者属于: {risk_group}")
+    
+#     # # 预测在12, 36, 60个月的风险矩阵
+#     # time_points = [12, 36, 60]  # 选择的时间点
+#     # risks_at_time_points = []
+    
+#     # for time in time_points:
+#     #     risk_at_time = rsf.predict_cumulative_hazard_function(input_data, times=[time], return_array=True)
+#     #     risks_at_time_points.append(risk_at_time[0][0])  # 取出对应时间点的风险值
+    
+#     # risk_matrix = pd.DataFrame({
+#     #     "Time (Months)": time_points,
+#     #     "Predicted Risk": risks_at_time_points
+#     # })
+    
+#     # st.write("不同时间点的预测风险矩阵:")
+#     # st.dataframe(risk_matrix)
+#     # 确保 input_data 格式正确
+#     # 打印输入数据（在页面上展示）
+#     st.write("Input Data for Prediction:")
+#     st.write(input_data)  # 直接展示 DataFrame 格式的输入数据
+
+#     # 打印输入数据的 NumPy 数组形式
+#     input_data_array = input_data.to_numpy()
+#     st.write("Input Data as NumPy Array:")
+#     st.write(input_data_array)
+
+#     # 检查数据的形状
+#     st.write(f"Data Shape: {input_data.shape}")
+#     # 打印输入数据的类型
+#     st.write(f"Data type of input_data: {type(input_data)}")
+
+#     # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
+#     input_data_array = input_data.to_numpy()
+
+#     # 预测累积风险函数
+#     cumulative_hazard_functions = rsf.predict_cumulative_hazard_function(input_data_array)
+
+#     # 构建风险矩阵
+#     # 每个样本都有一个对应的累积风险函数
+#     # 我们需要为每个样本获取对应时间点的累积风险值
+#     risks_matrix = []
+#     time_index = None
+
+#     for cumulative_hazard_func in cumulative_hazard_functions:
+#         # 获取所有时间点的累积风险值
+#         risks = cumulative_hazard_func.y  # 累积风险值
+#         time_index = cumulative_hazard_func.x  # 对应的时间点
+#         risks_matrix.append(risks)
+
+#     # 将结果转换为 DataFrame
+#     risk_matrix_df = pd.DataFrame(risks_matrix, columns=[f"Time {t}" for t in time_index])
+
+#     # 显示风险矩阵
+#     st.write("风险矩阵:")
+#     st.dataframe(risk_matrix_df)# 预测累积风险曲线并检查时间点是否在训练数据范围内
+
     # 预测风险评分
-    predicted_risk = rsf.predict(input_data)
-    # st.success(f"预测的风险评分: {predicted_risk[0]:.4f}")
+if st.button("Submit"):
+    # 确保 input_data 的列顺序与训练时一致
+    input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
 
-    # 计算累积风险函数
-    cumulative_hazard = rsf.predict_cumulative_hazard_function(input_data, return_array=True)
-    
-    # 输出累积风险曲线
-    fig, ax = plt.subplots()
-    time_points = np.linspace(0, cumulative_hazard[0][-1], num=100)  # 选择100个时间点
-    ax.plot(time_points, cumulative_hazard[0][:100], label='Cumulative Hazard')
-    ax.set_xlabel("Time (Months)")
-    ax.set_ylabel("Cumulative Hazard")
-    ax.set_title("Cumulative Hazard Curve")
-    ax.legend()
-    st.pyplot(fig)
+    # # 打印输入数据
+    # st.write("Input Data for Prediction:")
+    # st.write(input_data)
 
-    # 计算三分位数风险分层
-    all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
-    q1, q2 = np.percentile(all_risks, [33.33, 66.67])
-    
-    if predicted_risk < q1:
-        risk_group = "Low Risk"
-    elif predicted_risk < q2:
-        risk_group = "Medium Risk"
-    else:
-        risk_group = "High Risk"
-    
-    st.write(f"该患者属于: {risk_group}")
-    
-    # # 预测在12, 36, 60个月的风险矩阵
-    # time_points = [12, 36, 60]  # 选择的时间点
-    # risks_at_time_points = []
-    
-    # for time in time_points:
-    #     risk_at_time = rsf.predict_cumulative_hazard_function(input_data, times=[time], return_array=True)
-    #     risks_at_time_points.append(risk_at_time[0][0])  # 取出对应时间点的风险值
-    
-    # risk_matrix = pd.DataFrame({
-    #     "Time (Months)": time_points,
-    #     "Predicted Risk": risks_at_time_points
-    # })
-    
-    # st.write("不同时间点的预测风险矩阵:")
-    # st.dataframe(risk_matrix)
-    # 确保 input_data 格式正确
-    # 打印输入数据（在页面上展示）
-    st.write("Input Data for Prediction:")
-    st.write(input_data)  # 直接展示 DataFrame 格式的输入数据
-
-    # 打印输入数据的 NumPy 数组形式
+    # 打印 NumPy 数组形式的输入数据
     input_data_array = input_data.to_numpy()
-    st.write("Input Data as NumPy Array:")
-    st.write(input_data_array)
-
-    # 检查数据的形状
-    st.write(f"Data Shape: {input_data.shape}")
-    # 打印输入数据的类型
-    st.write(f"Data type of input_data: {type(input_data)}")
-
-    # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
-    input_data_array = input_data.to_numpy()
+    # st.write("Input Data as NumPy Array:")
+    # st.write(input_data_array)
 
     # 预测累积风险函数
     cumulative_hazard_functions = rsf.predict_cumulative_hazard_function(input_data_array)
 
-    # 构建风险矩阵
-    # 每个样本都有一个对应的累积风险函数
-    # 我们需要为每个样本获取对应时间点的累积风险值
+    # 获取所有时间点的累积风险值
     risks_matrix = []
     time_index = None
 
     for cumulative_hazard_func in cumulative_hazard_functions:
-        # 获取所有时间点的累积风险值
         risks = cumulative_hazard_func.y  # 累积风险值
         time_index = cumulative_hazard_func.x  # 对应的时间点
         risks_matrix.append(risks)
@@ -231,6 +264,41 @@ if st.button("Submit"):
 
     # 显示风险矩阵
     st.write("风险矩阵:")
-    st.dataframe(risk_matrix_df)# 预测累积风险曲线并检查时间点是否在训练数据范围内
+    st.dataframe(risk_matrix_df)
 
+    # 计算 1、3、5 年的生存率
+    time_points = [12, 36, 60]  # 12个月(1年), 36个月(3年), 60个月(5年)
+    survival_rates = {}
+
+    for time_point in time_points:
+        # 获取在特定时间点的累积风险值
+        survival_rate = 1 - cumulative_hazard_functions[0](time_point)
+        survival_rates[f"Survival rate at {time_point} months"] = survival_rate
+
+    # 显示 1, 3, 5 年的生存率
+    st.write("1, 3, 5 年的生存率:")
+    for time_point, survival_rate in survival_rates.items():
+        st.write(f"{time_point}: {survival_rate:.4f}")
+
+    # 计算三分位数风险分层
+    all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
+    q1, q2 = np.percentile(all_risks, [33.33, 66.67])
+
+    if predicted_risk < q1:
+        risk_group = "Low Risk"
+    elif predicted_risk < q2:
+        risk_group = "Medium Risk"
+    else:
+        risk_group = "High Risk"
+
+    st.write(f"该患者属于: {risk_group}")
+
+    # 输出累积风险曲线
+    fig, ax = plt.subplots()
+    ax.plot(time_index, risks_matrix[0], label='Cumulative Hazard')
+    ax.set_xlabel("Time (Months)")
+    ax.set_ylabel("Cumulative Hazard")
+    ax.set_title("Cumulative Hazard Curve")
+    ax.legend()
+    st.pyplot(fig)
 
