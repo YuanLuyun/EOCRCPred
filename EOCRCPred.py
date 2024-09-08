@@ -205,6 +205,7 @@ if st.button("Submit"):
     for time_point, survival_rate in survival_rates.items():
         st.write(f"{time_point}: {survival_rate:.4f}")
 
+
     # 输出累积风险曲线
     fig, ax = plt.subplots(figsize=(6, 4))  # 设置图片宽度较小
     ax.plot(time_index, risks_matrix[0], label='Cumulative Hazard')
@@ -212,4 +213,7 @@ if st.button("Submit"):
     ax.set_ylabel("Cumulative Hazard")
     ax.set_title("Cumulative Hazard Curve")
     ax.legend()
-    st.pyplot(fig)
+    
+    # 使用 bbox_inches='tight' 保持图片内容和边界紧密
+    st.pyplot(fig, bbox_inches='tight')
+    # st.pyplot(fig)
