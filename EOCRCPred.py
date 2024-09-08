@@ -163,6 +163,7 @@ if st.button("Submit"):
         time_index = cumulative_hazard_func.x  # 对应的时间点
         risks_matrix.append(risks)
    
+    st.markdown("### CRisk Stratification")
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
     q1, q2 = np.percentile(all_risks, [33.33, 66.67])
