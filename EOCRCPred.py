@@ -217,7 +217,7 @@ if st.button("Submit"):
         st.write("不同时间点的预测风险矩阵:")
         st.dataframe(risk_matrix)
 
-except Exception as e:
+    except Exception as e:
         st.error(f"预测时发生错误: {e}")
 
 
