@@ -211,7 +211,7 @@ if st.button("Submit"):
      # 将累积风险矩阵转置，使时间点作为行索引，并加上表头
     risk_matrix_df = pd.DataFrame(risks_matrix).T  # 转置矩阵
     risk_matrix_df.index = time_index  # 将时间点设为行索引
-    risk_matrix_df.columns = ["PPredicted Cumulative Risk"] * risk_matrix_df.shape[1]  # 将所有列名设置为“Risk Score”
+    risk_matrix_df.columns = ["Predicted Cumulative Risk"] * risk_matrix_df.shape[1]  # 将所有列名设置为“Risk Score”
     risk_matrix_df.index.name = "Time Point (month)"  # 设置行索引的表头为“Time point (month)”
 
     # 显示表格上方的标题
