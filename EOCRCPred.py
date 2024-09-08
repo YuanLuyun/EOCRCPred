@@ -203,13 +203,19 @@ if st.button("Submit"):
     for time_point, survival_rate in survival_rates.items():
         st.write(f"{time_point}: {survival_rate:.4f}")
 
-
+    import io
     # 输出累积风险曲线
-    fig, ax = plt.subplots(figsize=(4, 3))
+    fig, ax = plt.subplots()
     ax.plot(time_index, risks_matrix[0], label='Cumulative Hazard')
     ax.set_xlabel("Time (Months)")
     ax.set_ylabel("Cumulative Hazard")
     ax.set_title("Cumulative Hazard Curve")
     ax.legend()
     st.pyplot(fig)
-    
+    # 将图片保存为字节流
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", bbox_inches='tight')
+    buf.seek(0)
+
+# 使用 st.image() 并设置宽度
+    st.image(buf, width=800)  # 设置图片宽度为 800 像素  
