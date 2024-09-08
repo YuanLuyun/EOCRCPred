@@ -183,14 +183,14 @@ if st.button("Submit"):
     for time_point in time_points:
         # 获取在特定时间点的累积风险值
         survival_rate = 1 - cumulative_hazard_functions[0](time_point)
-        survival_rates[f"Survival rate at {time_point} months"] = survival_rate
+        # 将月份转换为年，并保存生存率
+        survival_rates[f"Survival rate at {time_point // 12} years"] = survival_rate
 
     # 显示 1, 3, 5 年的生存率
-    st.markdown("### 1, 3, 5 年的生存率:")
-    # st.write("1, 3, 5 年的生存率:")
+    st.markdown("### 1, 3, 5-year survival rates")
     for time_point, survival_rate in survival_rates.items():
+        # 显示生存率，时间点显示为年
         st.write(f"{time_point}: {survival_rate:.4f}")
-
 
     # 输出累积风险曲线
     fig, ax = plt.subplots()
