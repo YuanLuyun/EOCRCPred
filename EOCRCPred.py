@@ -83,7 +83,7 @@ with col2:
     ], index=0)
 with col3:
     tumor_deposits = st.selectbox("Tumor Deposits", options=ordered_var_categories['Tumor Deposits'], index=0)
-    resected_lns = st.selectbox("No. of Resected LNs", options=ordered_var_categories['No.of resected LNs'], index=0)
+    resected_lns = st.selectbox("Number of Resected Lymph Nodes", options=ordered_var_categories['No.of resected LNs'], index=0)
     surg_rad_seq = st.selectbox("Surgical and Radiation Sequence", options=[
         "Untreated", 
         "Postoperative", 
