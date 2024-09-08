@@ -205,7 +205,7 @@ if st.button("Submit"):
 
 
     # 输出累积风险曲线
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4, 3))
     ax.plot(time_index, risks_matrix[0], label='Cumulative Hazard')
     ax.set_xlabel("Time (Months)")
     ax.set_ylabel("Cumulative Hazard")
