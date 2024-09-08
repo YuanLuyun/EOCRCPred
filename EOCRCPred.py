@@ -234,20 +234,23 @@ input_data = pd.DataFrame({
 #     st.dataframe(risk_matrix_df)# 预测累积风险曲线并检查时间点是否在训练数据范围内
 
     # 预测风险评分
+# 预测风险评分
 if st.button("Submit"):
     # 确保 input_data 的列顺序与训练时一致
     input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
 
-    # # 打印输入数据
-    # st.write("Input Data for Prediction:")
-    # st.write(input_data)
+    # 打印输入数据
+    st.write("Input Data for Prediction:")
+    st.write(input_data)
 
     # 打印 NumPy 数组形式的输入数据
     input_data_array = input_data.to_numpy()
-    # st.write("Input Data as NumPy Array:")
-    # st.write(input_data_array)
+    st.write("Input Data as NumPy Array:")
+    st.write(input_data_array)
+
     # 预测风险评分并赋值给 predicted_risk
     predicted_risk = rsf.predict(input_data)
+
     # 预测累积风险函数
     cumulative_hazard_functions = rsf.predict_cumulative_hazard_function(input_data_array)
 
@@ -285,9 +288,9 @@ if st.button("Submit"):
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
     q1, q2 = np.percentile(all_risks, [33.33, 66.67])
 
-    if predicted_risk < q1:
+    if predicted_risk[0] < q1:
         risk_group = "Low Risk"
-    elif predicted_risk < q2:
+    elif predicted_risk[0] < q2:
         risk_group = "Medium Risk"
     else:
         risk_group = "High Risk"
@@ -302,4 +305,5 @@ if st.button("Submit"):
     ax.set_title("Cumulative Hazard Curve")
     ax.legend()
     st.pyplot(fig)
+
 
