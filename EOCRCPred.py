@@ -194,10 +194,20 @@ if st.button("Submit"):
     # st.write("不同时间点的预测风险矩阵:")
     # st.dataframe(risk_matrix)
     # 确保 input_data 格式正确
-    input_data = input_data.reindex(columns=X_train.columns, fill_value=0)
+    # 打印输入数据（在页面上展示）
+    st.write("Input Data for Prediction:")
+    st.write(input_data)  # 直接展示 DataFrame 格式的输入数据
 
-    # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
+    # 打印输入数据的 NumPy 数组形式
     input_data_array = input_data.to_numpy()
+    st.write("Input Data as NumPy Array:")
+    st.write(input_data_array)
+
+    # 检查数据的形状
+    st.write(f"Data Shape: {input_data.shape}")
+
+    # # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
+    # input_data_array = input_data.to_numpy()
 
     # 预测累积风险曲线并检查时间点是否在训练数据范围内
     try:
