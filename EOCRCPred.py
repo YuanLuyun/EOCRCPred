@@ -49,7 +49,7 @@ ordered_var_categories = {
     'TNM Stage': ['0', 'I', 'IIA', 'IIB', 'IIC', 'IIIA', 'IIIB', 'IIIC'],
     'T': ['Tis', 'T1', 'T2', 'T3', 'T4'],
     'N': ['N0', 'N1', 'N2'],
-    'CEA': ['negative', 'Borderline', 'positive'],
+    'CEA': ['＜5', '5', '＞5'],
     'No.of resected LNs': ['0', '1-3', '≥4'],
     'Tumor Deposits': ['0', '1-2', '3+'],
     'Tumor size': ['＜5', '≥5'],
