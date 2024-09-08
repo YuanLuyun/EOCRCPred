@@ -211,11 +211,11 @@ if st.button("Submit"):
     ax.set_ylabel("Cumulative Hazard")
     ax.set_title("Cumulative Hazard Curve")
     ax.legend()
-    st.pyplot(fig)
+    # st.pyplot(fig)
     # 将图片保存为字节流
     buf = io.BytesIO()
     fig.savefig(buf, format="png", bbox_inches='tight')
     buf.seek(0)
 
 # 使用 st.image() 并设置宽度
-    st.image(buf, width=800)  # 设置图片宽度为 800 像素  
+    st.image(buf, width=500)  # 设置图片宽度为 800 像素  
