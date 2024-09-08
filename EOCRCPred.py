@@ -184,7 +184,7 @@ if st.button("Submit"):
         # 获取在特定时间点的累积风险值
         survival_rate = 1 - cumulative_hazard_functions[0](time_point)
         # 将月份转换为年，并保存生存率
-        survival_rates[f"Survival rate at {time_point // 12} years"] = survival_rate
+        survival_rates[f"{time_point // 12} -year survival_rate"] = survival_rate
 
     # 显示 1, 3, 5 年的生存率
     st.markdown("### 1, 3, 5-year survival rates")
