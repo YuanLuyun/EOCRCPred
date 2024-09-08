@@ -163,17 +163,17 @@ if st.button("Submit"):
         time_index = cumulative_hazard_func.x  # 对应的时间点
         risks_matrix.append(risks)
 
-        # 将累积风险矩阵转置，使时间点作为行索引，并加上表头
+    # 将累积风险矩阵转置，使时间点作为行索引，并加上表头
     risk_matrix_df = pd.DataFrame(risks_matrix).T  # 转置矩阵
     risk_matrix_df.index = time_index  # 将时间点设为行索引
     risk_matrix_df.columns = [f"Risk score {i+1}" for i in range(risk_matrix_df.shape[1])]  # 设置风险分数表头
+    risk_matrix_df.index.name = "Time point (month)"  # 设置行索引的表头为“Time point (month)”
 
-    # 添加自定义表头 "Time point (month)" 和 "Risk score"
-    risk_matrix_df.index.name = "Time point (month)"
+    # 显示表格上方的标题
+    st.markdown("### Raw data")
 
-    # 显示风险矩阵，并使表格更宽
-    st.write("风险矩阵（时间点作为行）:")
-    st.dataframe(risk_matrix_df, width=1500)  # 设置宽度为 1500 使表格显示更宽
+    # 显示风险矩阵，并使表格与图片等宽
+    st.dataframe(risk_matrix_df, width=800)  # 将表格宽度设置为 800，确保与图片等宽
 
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
@@ -211,7 +211,3 @@ if st.button("Submit"):
     ax.set_title("Cumulative Hazard Curve")
     ax.legend()
     st.pyplot(fig)
-
-        # 显示风险矩阵
-    st.write("风险矩阵:")
-    st.dataframe(risk_matrix_df)
