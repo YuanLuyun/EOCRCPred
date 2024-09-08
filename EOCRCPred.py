@@ -140,6 +140,9 @@ input_data = pd.DataFrame({
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
+# 设置Streamlit页面布局，页面宽度为默认
+st.set_page_config(layout="centered")
+
 # 预测风险评分
 if st.button("Submit"):
     # 确保 input_data 的列顺序与训练时一致
@@ -172,8 +175,8 @@ if st.button("Submit"):
     # 显示表格上方的标题
     st.markdown("### Raw data")
 
-    # 显示风险矩阵，并使表格与图片等宽
-    st.dataframe(risk_matrix_df, width=800)  # 将表格宽度设置为 800，确保与图片等宽
+    # 显示风险矩阵，并使表格宽度较小
+    st.dataframe(risk_matrix_df, width=600)  # 将表格宽度设置为 600
 
     # 计算三分位数风险分层
     all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
@@ -187,7 +190,8 @@ if st.button("Submit"):
         risk_group = "High Risk"
 
     st.write(f"该患者属于: {risk_group}")
-        # 计算 1、3、5 年的生存率
+
+    # 计算 1、3、5 年的生存率
     time_points = [12, 36, 60]  # 12个月(1年), 36个月(3年), 60个月(5年)
     survival_rates = {}
 
@@ -201,10 +205,8 @@ if st.button("Submit"):
     for time_point, survival_rate in survival_rates.items():
         st.write(f"{time_point}: {survival_rate:.4f}")
 
-
-
     # 输出累积风险曲线
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6, 4))  # 设置图片宽度较小
     ax.plot(time_index, risks_matrix[0], label='Cumulative Hazard')
     ax.set_xlabel("Time (Months)")
     ax.set_ylabel("Cumulative Hazard")
