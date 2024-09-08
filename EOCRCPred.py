@@ -208,8 +208,8 @@ if st.button("Submit"):
     # 打印输入数据的类型
     st.write(f"Data type of input_data: {type(input_data)}")
 
-    # # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
-    # input_data_array = input_data.to_numpy()
+    # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
+    input_data_array = input_data.to_numpy()
 
     # 预测累积风险曲线并检查时间点是否在训练数据范围内
     try:
