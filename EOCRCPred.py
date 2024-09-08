@@ -211,25 +211,26 @@ if st.button("Submit"):
     # 将 input_data 转换为 NumPy 数组（如果仍然有格式问题）
     input_data_array = input_data.to_numpy()
 
-    # 预测累积风险曲线并检查时间点是否在训练数据范围内
-    try:
-        # 选择的时间点 (例如：12, 36, 60 个月)
-        time_points = [12, 36, 60]
+    # 预测累积风险函数
+    cumulative_hazard_functions = rsf.predict_cumulative_hazard_function(input_data_array)
 
-        risks_at_time_points = []
-        for time in time_points:
-            risk_at_time = rsf.predict_cumulative_hazard_function(input_data_array, times=[time], return_array=True)
-            risks_at_time_points.append(risk_at_time[0][0])  # 提取时间点的风险值
+    # 构建风险矩阵
+    # 每个样本都有一个对应的累积风险函数
+    # 我们需要为每个样本获取对应时间点的累积风险值
+    risks_matrix = []
+    time_index = None
 
-        # 输出风险矩阵
-        risk_matrix = pd.DataFrame({
-        "Time (Months)": time_points,
-        "Predicted Risk": risks_at_time_points
-        })
-        st.write("不同时间点的预测风险矩阵:")
-        st.dataframe(risk_matrix)
+    for cumulative_hazard_func in cumulative_hazard_functions:
+        # 获取所有时间点的累积风险值
+        risks = cumulative_hazard_func.y  # 累积风险值
+        time_index = cumulative_hazard_func.x  # 对应的时间点
+        risks_matrix.append(risks)
 
-    except Exception as e:
-        st.error(f"预测时发生错误: {e}")
+    # 将结果转换为 DataFrame
+    risk_matrix_df = pd.DataFrame(risks_matrix, columns=[f"Time {t}" for t in time_index])
+
+    # 显示风险矩阵
+    st.write("风险矩阵:")
+    st.dataframe(risk_matrix_df)# 预测累积风险曲线并检查时间点是否在训练数据范围内
 
 
