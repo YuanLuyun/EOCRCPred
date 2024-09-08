@@ -59,7 +59,7 @@ ordered_var_categories = {
 # 三列布局
 col1, col2, col3 = st.columns(3)
 with col1:
-    age = st.selectbox("Age", options=ordered_var_categories['Age'], index=0)
+    age = st.selectbox("Age(year)", options=ordered_var_categories['Age'], index=0)
     sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
     race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
@@ -67,11 +67,11 @@ with col1:
     primary_site = st.selectbox("Primary Site", options=[
         "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
     ], index=0)
-    tumor_size = st.selectbox("Tumor Size", options=ordered_var_categories['Tumor size'], index=0)
+    tumor_size = st.selectbox("Tumor Size（cm）", options=ordered_var_categories['Tumor size'], index=0)
 with col2:
     grade = st.selectbox("Grade", options=ordered_var_categories['Grade'], index=0)
     histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
-    cea = st.selectbox("CEA", options=ordered_var_categories['CEA'], index=0)
+    cea = st.selectbox("CEA（ng/mL）", options=ordered_var_categories['CEA'], index=0)
     tnm_stage = st.selectbox("TNM Stage", options=ordered_var_categories['TNM Stage'], index=0)
     t = st.selectbox("T", options=ordered_var_categories['T'], index=0)
     n = st.selectbox("N", options=ordered_var_categories['N'], index=0)
@@ -84,14 +84,14 @@ with col2:
 with col3:
     tumor_deposits = st.selectbox("Tumor Deposits", options=ordered_var_categories['Tumor Deposits'], index=0)
     resected_lns = st.selectbox("No. of Resected LNs", options=ordered_var_categories['No.of resected LNs'], index=0)
-    surg_rad_seq = st.selectbox("Surg.Rad.Seq", options=[
+    surg_rad_seq = st.selectbox("Surgical and Radiation Sequence", options=[
         "Untreated", 
         "Postoperative", 
         "Preoperative", 
         "Preoperative+Postoperative", 
         "Sequence unknown"
     ], index=0)
-    systemic_sur_seq = st.selectbox("Systemic.Sur.Seq", options=[
+    systemic_sur_seq = st.selectbox("Surgical and Systemic Sequence", options=[
         "Untreated", 
         "Postoperative", 
         "Preoperative", 
@@ -177,24 +177,11 @@ if st.button("Submit"):
 
     # 显示患者的风险分层并使用颜色
     if predicted_risk[0] < q1:
-        st.markdown(f"<span style='color: green;'>Current patient risk stratification: Low Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: green;'>Current patient risk group: Low Risk</span>", unsafe_allow_html=True)
     elif predicted_risk[0] < q2:
-        st.markdown(f"<span style='color: orange;'>Current patient risk stratification: Medium Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: orange;'>Current patient risk group: Medium Risk</span>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<span style='color: red;'>Current patient risk stratification: High Risk</span>", unsafe_allow_html=True)
-
-    # # 计算三分位数风险分层
-    # all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
-    # q1, q2 = np.percentile(all_risks, [33.33, 66.67])
-
-    # if predicted_risk[0] < q1:
-    #     risk_group = "Low Risk"
-    # elif predicted_risk[0] < q2:
-    #     risk_group = "Medium Risk"
-    # else:
-    #     risk_group = "High Risk"
-
-    # st.write(f"该患者属于: {risk_group}")
+        st.markdown(f"<span style='color: red;'>Current patient risk group: High Risk</span>", unsafe_allow_html=True)
 
     # 计算 1、3、5 年的生存率
     time_points = [12, 36, 60]  # 12个月(1年), 36个月(3年), 60个月(5年)
