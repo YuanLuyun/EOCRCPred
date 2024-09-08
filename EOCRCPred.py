@@ -177,11 +177,11 @@ if st.button("Submit"):
 
     # 显示患者的风险分层并使用颜色
     if predicted_risk[0] < q1:
-        st.markdown(f"<span style='color: green;'>Current patient risk group: Low Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: green;'>The current patient's risk group: Low Risk</span>", unsafe_allow_html=True)
     elif predicted_risk[0] < q2:
-        st.markdown(f"<span style='color: orange;'>Current patient risk group: Medium Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: orange;'>The current patient's risk group: Medium Risk</span>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<span style='color: red;'>Current patient risk group: High Risk</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color: red;'>The current patient's risk group: High Risk</span>", unsafe_allow_html=True)
 
     # 计算 1、3、5 年的生存率
     time_points = [12, 36, 60]  # 12个月(1年), 36个月(3年), 60个月(5年)
@@ -211,7 +211,7 @@ if st.button("Submit"):
      # 将累积风险矩阵转置，使时间点作为行索引，并加上表头
     risk_matrix_df = pd.DataFrame(risks_matrix).T  # 转置矩阵
     risk_matrix_df.index = time_index  # 将时间点设为行索引
-    risk_matrix_df.columns = ["Predicted Relative Risk Score"] * risk_matrix_df.shape[1]  # 将所有列名设置为“Risk Score”
+    risk_matrix_df.columns = ["PPredicted Cumulative Risk"] * risk_matrix_df.shape[1]  # 将所有列名设置为“Risk Score”
     risk_matrix_df.index.name = "Time Point (month)"  # 设置行索引的表头为“Time point (month)”
 
     # 显示表格上方的标题
