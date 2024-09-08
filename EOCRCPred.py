@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from sksurv.ensemble import RandomSurvivalForest
 from sksurv.util import Surv
 import matplotlib.pyplot as plt
+# 设置Streamlit页面布局，页面宽度为默认
+st.set_page_config(layout="centered")
 
 # 设置Streamlit页面布局
 st.title("Postoperative EOCRC Prediction Model (EOCRCpred)")
@@ -140,8 +142,6 @@ input_data = pd.DataFrame({
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
-# # 设置Streamlit页面布局，页面宽度为默认
-# st.set_page_config(layout="centered")
 
 # 预测风险评分
 if st.button("Submit"):
