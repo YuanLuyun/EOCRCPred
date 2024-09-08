@@ -206,8 +206,8 @@ if st.button("Submit"):
 
         risks_at_time_points = []
         for time in time_points:
-        risk_at_time = rsf.predict_cumulative_hazard_function(input_data_array, times=[time], return_array=True)
-        risks_at_time_points.append(risk_at_time[0][0])  # 提取时间点的风险值
+            risk_at_time = rsf.predict_cumulative_hazard_function(input_data_array, times=[time], return_array=True)
+            risks_at_time_points.append(risk_at_time[0][0])  # 提取时间点的风险值
 
         # 输出风险矩阵
         risk_matrix = pd.DataFrame({
