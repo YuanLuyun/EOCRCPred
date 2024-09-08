@@ -228,7 +228,7 @@ if st.button("Submit"):
     risk_matrix_df.index.name = "Time Point (month)"  # 设置行索引的表头为“Time point (month)”
 
     # 显示表格上方的标题
-    st.markdown("### Raw data")
+    st.markdown("### Cumulative Hazard Function Matrix")
 
     # 显示风险矩阵，并使表格宽度较小
     st.dataframe(risk_matrix_df, width=600)  # 将表格宽度设置为 600
