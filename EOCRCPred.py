@@ -13,7 +13,7 @@ st.write("Enter the following items to display the predicted postoperative survi
 # 加载数据
 @st.cache_data
 def load_data():
-    data = pd.read_csv('data_encoded8415.csv')
+    data = pd.read_csv('data_encoded7408.csv')
     data = data.drop(columns=['Patient_ID'])
     return data
 
