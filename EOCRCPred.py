@@ -19,6 +19,35 @@ def load_data():
 
 data = load_data()
 
+# 保留指定特征
+features_to_keep = [
+    'CEA',
+    'Tumor_Deposits',
+    'Perineural_Invasion',
+    'Marital_status',
+    'Chemotherapy',
+    'Median_household_income',
+    'Tumor_size',
+    'Grade',
+    'T',
+    'Surg.Rad.Seq',
+    'TNM_Stage',
+    'Age',
+    'Primary_site',
+    'Race',
+    'N',
+    'Primary_site',
+    'Marital_status',
+    'Surg.Rad.Seq',
+    'Systemic.Sur.Seq',
+    'Resection_type',
+    'Systemic.Sur.Seq_Sequence',
+    'Surg.Rad.Seq_Sequence'
+]
+
+# 过滤数据以保留所需特征
+filtered_data = data[features_to_keep]
+
 # 构建生存数据
 y = Surv.from_dataframe('Survival_status', 'OS_month', data)
 X = data.drop(columns=['OS_month', 'Survival_status'])
@@ -50,7 +79,6 @@ ordered_var_categories = {
     'T': ['Tis', 'T1', 'T2', 'T3', 'T4'],
     'N': ['N0', 'N1', 'N2'],
     'CEA': ['＜5', '5', '＞5'],
-    'No.of resected LNs': ['0', '1-3', '≥4'],
     'Tumor Deposits': ['0', '1-2', '3+'],
     'Tumor size': ['＜5', '≥5'],
     'Median household income': ['＜$35,000', '$35,000-$54,999', '$55,000-$74,999', '≥$75,000+']
@@ -60,7 +88,6 @@ ordered_var_categories = {
 col1, col2, col3 = st.columns(3)
 with col1:
     age = st.selectbox("Age(year)", options=ordered_var_categories['Age'], index=0)
-    sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
     race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
     income = st.selectbox("Median Household Income", options=ordered_var_categories['Median household income'], index=0)
@@ -70,7 +97,6 @@ with col1:
     tumor_size = st.selectbox("Tumor Size（cm）", options=ordered_var_categories['Tumor size'], index=0)
 with col2:
     grade = st.selectbox("Grade", options=ordered_var_categories['Grade'], index=0)
-    histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
     cea = st.selectbox("CEA（ng/mL）", options=ordered_var_categories['CEA'], index=0)
     tnm_stage = st.selectbox("TNM Stage", options=ordered_var_categories['TNM Stage'], index=0)
     t = st.selectbox("T", options=ordered_var_categories['T'], index=0)
@@ -83,7 +109,6 @@ with col2:
     ], index=0)
 with col3:
     tumor_deposits = st.selectbox("Tumor Deposits", options=ordered_var_categories['Tumor Deposits'], index=0)
-    resected_lns = st.selectbox("Number of Resected Lymph Nodes", options=ordered_var_categories['No.of resected LNs'], index=0)
     surg_rad_seq = st.selectbox("Surgical and Radiation Sequence", options=[
         "Untreated", 
         "Postoperative", 
@@ -109,11 +134,9 @@ input_data = pd.DataFrame({
     "T": [ordered_var_categories['T'].index(t)],  # T 转为数值
     "N": [ordered_var_categories['N'].index(n)],  # N 转为数值
     "CEA": [ordered_var_categories['CEA'].index(cea)],  # CEA 转为数值
-    "No.of_resected_LNs": [ordered_var_categories['No.of resected LNs'].index(resected_lns)],  # LNs 数值化
     "Tumor_Deposits": [ordered_var_categories['Tumor Deposits'].index(tumor_deposits)],  # Tumor Deposits 数值化
     "Tumor_size": [ordered_var_categories['Tumor size'].index(tumor_size)],  # Tumor Size 数值化
     "Median_household_income": [ordered_var_categories['Median household income'].index(income)],  # 收入数值化
-    "Sex_Female": [1 if sex == "Female" else 0],  # 性别编码
     "Race_Black": [1 if race == "Black" else 0],
     "Race_Other": [1 if race == "Other" else 0],
     "Primary_site_Rectum": [1 if primary_site == "Rectum" else 0],
@@ -123,8 +146,6 @@ input_data = pd.DataFrame({
     "Marital_status_Married": [1 if marital_status == "Married" else 0],
     "Marital_status_Divorced": [1 if marital_status == "Divorced" else 0],
     "Marital_status_Widowed": [1 if marital_status == "Widowed" else 0],
-    "Histology_Specific_adenocarcinoma": [1 if histology == "Specific adenocarcinoma" else 0],
-    "Histology_Other": [1 if histology == "Other" else 0],
     "Resection_type_Hemicolectomy_or_greater": [1 if resection_type == "Hemicolectomy or greater" else 0],
     "Resection_type_Total_colectomy": [1 if resection_type == "Total colectomy" else 0],
     "Resection_type_Colectomy_plus_removal_of_other_organs": [1 if resection_type == "Colectomy plus removal of other organs" else 0],
