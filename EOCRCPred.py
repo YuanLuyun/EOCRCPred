@@ -29,7 +29,6 @@ features_to_keep = [
     'Tumor_Deposits',
     'Tumor_size',
     'Median_household_income',
-    'Survival_status',
     'Race_Black',
     'Race_Other',
     'Primary_site_Sigmoid_colon',
