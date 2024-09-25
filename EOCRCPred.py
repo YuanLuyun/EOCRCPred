@@ -51,11 +51,9 @@ features_to_keep = [
     'Marital_status_Married',
     'Marital_status_Divorced',
     'Marital_status_Widowed',
-    'Survival_status',  # 如果需要保留生存状态
-    'OS_month'  # 如果需要保留生存时间
+    'Survival_status',
+    'OS_month'
 ]
-missing_columns = [col for col in features_to_keep if col not in data.columns]
-print("Missing columns:", missing_columns)
 
 # 过滤数据以保留所需特征
 filtered_data = data[features_to_keep]
