@@ -36,13 +36,8 @@ features_to_keep = [
     'Primary_site',
     'Race',
     'N',
-    'Primary_site',
-    'Marital_status',
-    'Surg.Rad.Seq',
     'Systemic.Sur.Seq',
     'Resection_type',
-    'Systemic.Sur.Seq_Sequence',
-    'Surg.Rad.Seq_Sequence'
 ]
 
 # 过滤数据以保留所需特征
