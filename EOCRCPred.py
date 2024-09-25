@@ -47,7 +47,7 @@ features_to_keep = [
     'Systemic.Sur.Seq_Postoperative',
     'Systemic.Sur.Seq_Preoperative',
     'Systemic.Sur.Seq_Preoperative+Postoperative',
-    'Systemic.Sur.Seq_Sequence unknown',
+    'Systemic.Sur.Seq_Sequence_unknown',
     'Perineural_Invasion_Yes',
     'Marital_status_Married',
     'Marital_status_Divorced',
