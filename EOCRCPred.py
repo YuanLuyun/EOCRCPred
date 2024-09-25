@@ -53,6 +53,8 @@ features_to_keep = [
     'Marital_status_Married',
     'Marital_status_Divorced',
     'Marital_status_Widowed'
+    'Survival_status',  # 如果需要保留生存状态
+    'OS_month'  # 如果需要保留生存时间
 ]
 
 # 过滤数据以保留所需特征
