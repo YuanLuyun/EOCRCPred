@@ -37,6 +37,8 @@ features_to_keep = [
     'N',
     'Systemic.Sur.Seq',
     'Resection_type',
+    'Survival_status',  # 如果需要保留生存状态
+    'OS_month'  # 如果需要保留生存时间
 ]
 
 # 过滤数据以保留所需特征
