@@ -14,7 +14,6 @@ st.write("Enter the following items to display the predicted postoperative survi
 @st.cache_data
 def load_data():
     data = pd.read_csv('data_encoded7408.csv')
-    data = data.drop(columns=['Patient_ID'])
     return data
 
 data = load_data()
@@ -44,20 +43,20 @@ features_to_keep = [
 filtered_data = data[features_to_keep]
 
 # 构建生存数据
-y = Surv.from_dataframe('Survival_status', 'OS_month', data)
-X = data.drop(columns=['OS_month', 'Survival_status'])
+y = Surv.from_dataframe('Survival_status', 'OS_month', filtered_data)
+X = filtered_data.drop(columns=['OS_month', 'Survival_status'])
 
 # 按照 9:1 划分训练集与测试集
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 初始化随机生存森林模型
 @st.cache_resource
 def train_model():
     rsf = RandomSurvivalForest(
-        n_estimators=1625, 
-        max_depth=6, 
+        n_estimators=1600, 
+        max_depth=3, 
         min_samples_split=2, 
-        min_samples_leaf=4, 
+        min_samples_leaf=9, 
         n_jobs=-1, 
         random_state=42
     )
