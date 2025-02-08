@@ -29,7 +29,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 @st.cache_resource
 def train_model():
     gbsa = GradientBoostingSurvivalAnalysis(
-    n_estimators=1000,
+    n_estimators=100,
     learning_rate=0.16896118299845536,
     max_depth=2,
     min_samples_split=10,
