@@ -36,7 +36,7 @@ def train_model():
     min_samples_leaf=2,
     subsample=0.972908417361546
 )
-    rsf.fit(X_train, y_train)
+    gbsa.fit(X_train, y_train)
     return rsf
 
 rsf = train_model()
@@ -45,7 +45,7 @@ rsf = train_model()
 ordered_var_categories = {
     'T': ['Tis', 'T1', 'T2', 'T3', 'T4'],
     'N': ['N0', 'N1', 'N2'],
-    'CEA': ['＜5', '5', '＞5'],
+    'CEA': ['＜5', '＞5'],
     'Tumor Deposits': ['0', '1-2', '3+'],
     'Median household income': ['＜$35,000', '$35,000-$54,999', '$55,000-$74,999', '≥$75,000+']
 }
@@ -74,39 +74,19 @@ with col3:
 # 手动编码每个分类特征
 input_data = pd.DataFrame({
     "Age": [ordered_var_categories['Age'].index(age)],  # 将选择的年龄范围转为数值
-    "Grade": [ordered_var_categories['Grade'].index(grade)],  # 将 Grade 转为数值
-    "TNM_Stage": [ordered_var_categories['TNM Stage'].index(tnm_stage)],  # TNM Stage 转为数值
     "T": [ordered_var_categories['T'].index(t)],  # T 转为数值
     "N": [ordered_var_categories['N'].index(n)],  # N 转为数值
     "CEA": [ordered_var_categories['CEA'].index(cea)],  # CEA 转为数值
-    "No.of_resected_LNs": [ordered_var_categories['No.of resected LNs'].index(resected_lns)],  # LNs 数值化
     "Tumor_Deposits": [ordered_var_categories['Tumor Deposits'].index(tumor_deposits)],  # Tumor Deposits 数值化
-    "Tumor_size": [ordered_var_categories['Tumor size'].index(tumor_size)],  # Tumor Size 数值化
     "Median_household_income": [ordered_var_categories['Median household income'].index(income)],  # 收入数值化
-    "Sex_Female": [1 if sex == "Female" else 0],  # 性别编码
-    "Race_Black": [1 if race == "Black" else 0],
-    "Race_Other": [1 if race == "Other" else 0],
-    "Primary_site_Rectum": [1 if primary_site == "Rectum" else 0],
-    "Primary_site_Ascending_colon": [1 if primary_site == "Ascending colon" else 0],
-    "Primary_site_Transverse_colon": [1 if primary_site == "Transverse colon" else 0],
-    "Primary_site_Sigmoid_colon": [1 if primary_site == "Sigmoid colon" else 0],
     "Marital_status_Married": [1 if marital_status == "Married" else 0],
     "Marital_status_Divorced": [1 if marital_status == "Divorced" else 0],
     "Marital_status_Widowed": [1 if marital_status == "Widowed" else 0],
-    "Histology_Specific_adenocarcinoma": [1 if histology == "Specific adenocarcinoma" else 0],
-    "Histology_Other": [1 if histology == "Other" else 0],
-    "Resection_type_Hemicolectomy_or_greater": [1 if resection_type == "Hemicolectomy or greater" else 0],
-    "Resection_type_Total_colectomy": [1 if resection_type == "Total colectomy" else 0],
-    "Resection_type_Colectomy_plus_removal_of_other_organs": [1 if resection_type == "Colectomy plus removal of other organs" else 0],
     "Surg.Rad.Seq_Postoperative": [1 if surg_rad_seq == "Postoperative" else 0],
     "Surg.Rad.Seq_Preoperative": [1 if surg_rad_seq == "Preoperative" else 0],
     "Surg.Rad.Seq_Preoperative+Postoperative": [1 if surg_rad_seq == "Preoperative+Postoperative" else 0],
     "Surg.Rad.Seq_Sequence_unknown": [1 if surg_rad_seq == "Sequence unknown" else 0],
     "Chemotherapy_Yes": [1 if chemotherapy == "Yes" else 0],
-    "Systemic.Sur.Seq_Postoperative": [1 if systemic_sur_seq == "Postoperative" else 0],
-    "Systemic.Sur.Seq_Preoperative": [1 if systemic_sur_seq == "Preoperative" else 0],
-    "Systemic.Sur.Seq_Preoperative+Postoperative": [1 if systemic_sur_seq == "Preoperative+Postoperative" else 0],
-    "Systemic.Sur.Seq_Sequence_unknown": [1 if systemic_sur_seq == "Sequence unknown" else 0],
     "Perineural_Invasion_Yes": [1 if perineural_invasion == "Yes" else 0]
 })
 
@@ -137,7 +117,7 @@ if st.button("Submit"):
     st.markdown("### Risk Stratification")
 
     # 计算三分位数风险分层
-    all_risks = rsf.predict(X_train)  # 计算训练集中的所有风险评分
+    all_risks = gbsa.predict(X_train)  # 计算训练集中的所有风险评分
     q1, q2 = np.percentile(all_risks, [33.33, 66.67])  # 33.33% 和 66.67% 作为分位数
 
     # 显示风险分层的详细信息
