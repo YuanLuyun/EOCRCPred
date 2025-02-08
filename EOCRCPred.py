@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sksurv.ensemble import RandomSurvivalForest
+from sksurv.ensemble import GradientBoostingSurvivalAnalysis
 from sksurv.util import Surv
 import matplotlib.pyplot as plt
 
@@ -14,7 +14,6 @@ st.write("Enter the following items to display the predicted postoperative survi
 @st.cache_data
 def load_data():
     data = pd.read_csv('data_encoded7408_lasso.csv')
-    data = data.drop(columns=['Patient_ID'])
     return data
 
 data = load_data()
@@ -23,20 +22,20 @@ data = load_data()
 y = Surv.from_dataframe('Survival_status', 'OS_month', data)
 X = data.drop(columns=['OS_month', 'Survival_status'])
 
-# 按照 9:1 划分训练集与测试集
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+# 按照 7:3 划分训练集与测试集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # 初始化随机生存森林模型
 @st.cache_resource
 def train_model():
-    rsf = RandomSurvivalForest(
-        n_estimators=1625, 
-        max_depth=6, 
-        min_samples_split=2, 
-        min_samples_leaf=4, 
-        n_jobs=-1, 
-        random_state=42
-    )
+    gbsa = GradientBoostingSurvivalAnalysis(
+    n_estimators=1000,
+    learning_rate=0.16896118299845536,
+    max_depth=2,
+    min_samples_split=10,
+    min_samples_leaf=2,
+    subsample=0.972908417361546
+)
     rsf.fit(X_train, y_train)
     return rsf
 
@@ -44,54 +43,25 @@ rsf = train_model()
 
 # 定义有序变量的类别
 ordered_var_categories = {
-    'Age': ['＜35', '35-44', '45-49'],
-    'Grade': ['Well differentiated', 'Moderately differentiated', 'Poorly differentiated', 'Undifferentiated'],
-    'TNM Stage': ['0', 'I', 'IIA', 'IIB', 'IIC', 'IIIA', 'IIIB', 'IIIC'],
     'T': ['Tis', 'T1', 'T2', 'T3', 'T4'],
     'N': ['N0', 'N1', 'N2'],
     'CEA': ['＜5', '5', '＞5'],
-    'No.of resected LNs': ['0', '1-3', '≥4'],
     'Tumor Deposits': ['0', '1-2', '3+'],
-    'Tumor size': ['＜5', '≥5'],
     'Median household income': ['＜$35,000', '$35,000-$54,999', '$55,000-$74,999', '≥$75,000+']
 }
 
 # 三列布局
 col1, col2, col3 = st.columns(3)
 with col1:
-    age = st.selectbox("Age(year)", options=ordered_var_categories['Age'], index=0)
-    sex = st.selectbox("Sex", options=["Male", "Female"], index=0)
-    race = st.selectbox("Race", options=["White", "Black", "Other"], index=0)
     marital_status = st.selectbox("Marital status", options=["Single", "Married", "Divorced", "Widowed"], index=0)
     income = st.selectbox("Median Household Income", options=ordered_var_categories['Median household income'], index=0)
-    primary_site = st.selectbox("Primary Site", options=[
-        "Sigmoid colon", "Rectum", "Descending colon", "Transverse colon"
-    ], index=0)
-    tumor_size = st.selectbox("Tumor Size（cm）", options=ordered_var_categories['Tumor size'], index=0)
-with col2:
-    grade = st.selectbox("Grade", options=ordered_var_categories['Grade'], index=0)
-    histology = st.selectbox("Histology", options=["Non-specific adenocarcinoma", "Specific adenocarcinoma", "Other"], index=0)
     cea = st.selectbox("CEA（ng/mL）", options=ordered_var_categories['CEA'], index=0)
-    tnm_stage = st.selectbox("TNM Stage", options=ordered_var_categories['TNM Stage'], index=0)
+with col2:
     t = st.selectbox("T", options=ordered_var_categories['T'], index=0)
     n = st.selectbox("N", options=ordered_var_categories['N'], index=0)
-    resection_type = st.selectbox("Resection type", options=[
-        "Partial/subtotal colectomy", 
-        "Hemicolectomy or greater", 
-        "Total colectomy", 
-        "Colectomy plus removal of other organs"
-    ], index=0)
-with col3:
     tumor_deposits = st.selectbox("Tumor Deposits", options=ordered_var_categories['Tumor Deposits'], index=0)
-    resected_lns = st.selectbox("Number of Resected Lymph Nodes", options=ordered_var_categories['No.of resected LNs'], index=0)
+with col3:
     surg_rad_seq = st.selectbox("Surgical and Radiation Sequence", options=[
-        "Untreated", 
-        "Postoperative", 
-        "Preoperative", 
-        "Preoperative+Postoperative", 
-        "Sequence unknown"
-    ], index=0)
-    systemic_sur_seq = st.selectbox("Surgical and Systemic Sequence", options=[
         "Untreated", 
         "Postoperative", 
         "Preoperative", 
