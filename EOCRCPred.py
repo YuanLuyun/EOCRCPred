@@ -73,7 +73,6 @@ with col3:
 
 # 手动编码每个分类特征
 input_data = pd.DataFrame({
-    "Age": [ordered_var_categories['Age'].index(age)],  # 将选择的年龄范围转为数值
     "T": [ordered_var_categories['T'].index(t)],  # T 转为数值
     "N": [ordered_var_categories['N'].index(n)],  # N 转为数值
     "CEA": [ordered_var_categories['CEA'].index(cea)],  # CEA 转为数值
