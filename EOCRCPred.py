@@ -39,7 +39,7 @@ def train_model():
     gbsa.fit(X_train, y_train)
     return gbsa
 
-rsf = train_model()
+gbsa = train_model()
 
 # 定义有序变量的类别
 ordered_var_categories = {
