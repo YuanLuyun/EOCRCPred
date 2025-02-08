@@ -37,7 +37,7 @@ def train_model():
     subsample=0.972908417361546
 )
     gbsa.fit(X_train, y_train)
-    return rsf
+    return gbsa
 
 rsf = train_model()
 
