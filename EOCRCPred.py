@@ -101,7 +101,7 @@ if st.button("Submit"):
     predicted_risk = gbsa.predict(input_data)
 
     # 预测累积风险函数
-    cumulative_hazard_functions = rsf.predict_cumulative_hazard_function(input_data_array)
+    cumulative_hazard_functions = gbsa.predict_cumulative_hazard_function(input_data_array)
 
     # 获取所有时间点的累积风险值
     risks_matrix = []
